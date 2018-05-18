@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace VirtualWindowUWP
 {
@@ -103,7 +104,8 @@ namespace VirtualWindowUWP
             // manage key listener
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
 
-            
+            // create socket datagram
+            CreateSocketListener();
 
         }
 
@@ -166,9 +168,86 @@ namespace VirtualWindowUWP
                     {
                         e.Handled = true;
                         frame.GoBack();
+
+                        // Clear all BackStack properties
+                        frame.BackStack.Clear();
                     }
                     break;
             }
+        }
+
+        async void CreateSocketListener()
+        {
+            try
+            {
+                //Create a StreamSocketListener to start listening for TCP connections.
+                Windows.Networking.Sockets.StreamSocketListener socketListener = new Windows.Networking.Sockets.StreamSocketListener();
+
+                //Hook up an event handler to call when connections are received.
+                socketListener.ConnectionReceived += SocketListener_ConnectionReceived;
+
+                //Start listening for incoming TCP connections on the specified port. You can specify any port that' s not currently in use.
+                await socketListener.BindServiceNameAsync("50005");
+                Debug.WriteLine("OK.");
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("NG");
+                //Handle exception.
+            }
+        }
+
+        private async void SocketListener_ConnectionReceived(Windows.Networking.Sockets.StreamSocketListener sender,
+        Windows.Networking.Sockets.StreamSocketListenerConnectionReceivedEventArgs args)
+        {
+            //Read line from the remote client.
+            Stream inStream = args.Socket.InputStream.AsStreamForRead();
+            StreamReader reader = new StreamReader(inStream);
+            string request = await reader.ReadLineAsync();
+
+            // string check = CheckCommand(request);
+            await CheckCommand(request);
+        }
+
+        // http://garicchi.com/?p=5891
+        // string CheckCommand(String msg)
+        private async Task CheckCommand(String msg)
+        {
+            await Task.Run(() =>
+            {
+                // Frame rootFrame = Window.Current.Content as Frame;
+                Frame rootFrame = Window.Current.Content as Frame;
+                Debug.WriteLine("check command.");
+                if (msg.IndexOf("IMAGE") >= 0)
+                {
+                    Debug.WriteLine("Image!");
+                    // change mode to image mode and set the specified picture
+                    rootFrame.ContentTransitions = new TransitionCollection();
+                    rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                    rootFrame.Navigate(typeof(ImagePage));
+                    // return "OK";
+                }
+                else if (msg.IndexOf("VIDEO") >= 0)
+                {
+                    // change mode to video mode and set the specified video
+                    rootFrame.Navigate(typeof(VideoPane));
+                    // return "OK";
+                }
+                else if (msg.IndexOf("LIVE") >= 0)
+                {
+                    // change mode to live mode
+
+                    // return "OK";
+                }
+                else if (msg.IndexOf("BLANK") >= 0)
+                {
+                    // change mode to blank mode
+                    Debug.WriteLine("Blank accepted.");
+                    // return "OK";
+                }
+                // return "NG";
+            });
+
         }
 
     }
