@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.Threading.Tasks;
 using Windows.Storage.Streams;
 using System.Diagnostics;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace VirtualWindowUWP
 {
@@ -28,13 +30,14 @@ namespace VirtualWindowUWP
         public ImagePage()
         {
             this.InitializeComponent();
-
             pictureLiblary = KnownFolders.PicturesLibrary;
-            
+            Window.Current.CoreWindow.KeyDown += ShortKey_Down;
+            //ReadImage();
         }
 
         private async void ReadImage()
         {
+            Debug.WriteLine("OK.");
             // for debug
             Windows.Storage.StorageFile pic = await pictureLiblary.GetFileAsync("virtualWindow\\pic_01.jpg");
 
@@ -57,7 +60,7 @@ namespace VirtualWindowUWP
 
         private void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            Debug.WriteLine("OK.");
+
             ReadImage();
             switch (e.Key)
             {
@@ -67,5 +70,20 @@ namespace VirtualWindowUWP
             }
         }
 
+        private void ShortKey_Down(object send, Windows.UI.Core.KeyEventArgs e)
+        {
+            Debug.WriteLine("Change");
+            switch (e.VirtualKey)
+            {
+                case VirtualKey.Escape:
+                    //ESCキーを押した時呼ばれる
+                    break;
+                case Windows.System.VirtualKey.Z:
+                    //zキーを押した時呼ばれる
+                    ReadImage();
+                    break;
+
+            }
+        }
     }
 }
