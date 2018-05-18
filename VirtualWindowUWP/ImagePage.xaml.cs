@@ -16,6 +16,7 @@ using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Threading.Tasks;
 using Windows.Storage.Streams;
+using System.Diagnostics;
 
 namespace VirtualWindowUWP
 {
@@ -56,6 +57,7 @@ namespace VirtualWindowUWP
 
         private void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
         {
+            Debug.WriteLine("OK.");
             ReadImage();
             switch (e.Key)
             {
