@@ -9,19 +9,20 @@
 
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="34*"/>
+            <RowDefinition Height="20*"/>
             <RowDefinition Height="45*"/>
-            <RowDefinition Height="41*"/>
-            <RowDefinition Height="86*"/>
-            <RowDefinition Height="141*"/>
-            <RowDefinition Height="193*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="130*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="110*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="109*"/>
             <ColumnDefinition Width="51*"/>
         </Grid.ColumnDefinitions>
 
-        <Image x:Name="image" Source="Images/StartPage.png" Stretch="UniformToFill" Grid.ColumnSpan="2" Grid.RowSpan="6"/>
+        <Image x:Name="image" Source="Images/StartPage.png" Stretch="UniformToFill" Grid.ColumnSpan="2" Grid.RowSpan="7"/>
 
         <Viewbox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
             <TextBlock x:Name="textbox" Margin="40 10 40 10" Foreground="White">
@@ -82,6 +83,13 @@
             </Button>
 
         </Grid>
+
+        <Viewbox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock x:Name="information" Margin="40 10 40 10" Foreground="White">
+                ライブ映像ボタンは現在開発中のため使用することができません。<LineBreak/>
+                ライブ映像を表示する際はVLC media playerを使用してください。
+            </TextBlock>
+        </Viewbox>
 
     </Grid>
 
