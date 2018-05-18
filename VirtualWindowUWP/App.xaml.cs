@@ -18,19 +18,23 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 
 namespace VirtualWindowUWP
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-
+   
     sealed partial class App : Application
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
+
+        Frame rootFrame;
+        
         public App()
         {
             this.InitializeComponent();
@@ -44,7 +48,7 @@ namespace VirtualWindowUWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -205,6 +209,7 @@ namespace VirtualWindowUWP
             StreamReader reader = new StreamReader(inStream);
             string request = await reader.ReadLineAsync();
 
+            Debug.WriteLine("Accept");
             // string check = CheckCommand(request);
             await CheckCommand(request);
         }
@@ -215,9 +220,8 @@ namespace VirtualWindowUWP
         {
             await Task.Run(() =>
             {
-                // Frame rootFrame = Window.Current.Content as Frame;
-                Frame rootFrame = Window.Current.Content as Frame;
                 Debug.WriteLine("check command.");
+
                 if (msg.IndexOf("IMAGE") >= 0)
                 {
                     Debug.WriteLine("Image!");
@@ -231,6 +235,8 @@ namespace VirtualWindowUWP
                 {
                     // change mode to video mode and set the specified video
                     rootFrame.Navigate(typeof(VideoPane));
+
+                    
                     // return "OK";
                 }
                 else if (msg.IndexOf("LIVE") >= 0)

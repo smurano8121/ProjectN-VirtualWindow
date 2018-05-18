@@ -35,7 +35,7 @@ namespace VirtualWindowUWP
         private async void ReadVideo()
         {
             // for debug
-            StorageFile video = await videoLibrary.GetFileAsync("virtualWindow\\video_01.mp4");
+            StorageFile video = await videoLibrary.GetFileAsync("virtualWindow\\video_06.mp4");
             var stream = await video.OpenAsync(Windows.Storage.FileAccessMode.Read);
 
             videoPlayer.SetSource(stream, video.ContentType);

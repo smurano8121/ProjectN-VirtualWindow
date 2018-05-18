@@ -63,7 +63,7 @@ namespace VirtualWindowUWP
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         
