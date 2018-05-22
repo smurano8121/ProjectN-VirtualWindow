@@ -34,7 +34,10 @@ namespace VirtualWindowUWP
         /// </summary>
 
         Frame rootFrame;
-        
+
+        Socket socket;
+
+
         public App()
         {
             this.InitializeComponent();
@@ -109,7 +112,9 @@ namespace VirtualWindowUWP
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
 
             // create socket datagram
-            // CreateSocketListener();
+            socket = new Socket();
+            socket.CreateSocketListener("50005");
+            socket.setRootFrame(rootFrame);
 
         }
 
