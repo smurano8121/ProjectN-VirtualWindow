@@ -104,6 +104,7 @@
     <Compile Include="LivePage.xaml.cs">
       <DependentUpon>LivePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Socket.cs" />
     <Compile Include="StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>

@@ -109,7 +109,7 @@ namespace VirtualWindowUWP
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
 
             // create socket datagram
-            CreateSocketListener();
+            // CreateSocketListener();
 
         }
 
@@ -180,6 +180,7 @@ namespace VirtualWindowUWP
             }
         }
 
+        /*
         async void CreateSocketListener()
         {
             try
@@ -255,6 +256,7 @@ namespace VirtualWindowUWP
             });
 
         }
+        */
 
     }
 }
