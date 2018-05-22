@@ -25,7 +25,7 @@ namespace VirtualWindowUWP
     public sealed partial class ImagePage : Page
     {
         // To get picture library, we have to declare the function in app manifest.
-        private static StorageFolder pictureLiblary;
+        private static StorageFolder pictureLibrary;
         // The list which contains stored pictures in picture library.
         private IReadOnlyList<StorageFile> storedPicture;
         // File number index of stored picture which is shown in Image view.
@@ -34,7 +34,8 @@ namespace VirtualWindowUWP
         public ImagePage()
         {
             this.InitializeComponent();
-            pictureLiblary = KnownFolders.PicturesLibrary;
+
+            pictureLibrary = KnownFolders.PicturesLibrary;
 
             // Read Image File from picture library.
             GetImageList();
@@ -51,8 +52,8 @@ namespace VirtualWindowUWP
         private async void GetImageList()
         {
             // load image files upto 100.
-            pictureLiblary = await pictureLiblary.GetFolderAsync("VirtualWindow");
-            storedPicture = await pictureLiblary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
+            pictureLibrary = await pictureLibrary.GetFolderAsync("VirtualWindow");
+            storedPicture = await pictureLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
 
             // Show first image file stored in picture library.
             // Note: "first image" means the top file when files are sorted by Name.
