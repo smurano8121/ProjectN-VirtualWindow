@@ -31,8 +31,14 @@ namespace VirtualWindowUWP
         {
             this.InitializeComponent();
             pictureLiblary = KnownFolders.PicturesLibrary;
-            Window.Current.CoreWindow.KeyDown += ShortKey_Down;
-            //ReadImage();
+
+            // Add KeyDown event handler into CoreWindow
+            // Have to remove this handler when this page is unloaded.
+            Window.Current.CoreWindow.KeyDown += KeyDownHandle;
+            this.Unloaded += (sender, e) =>
+            {
+                Window.Current.CoreWindow.KeyDown -= KeyDownHandle;
+            };
         }
 
         private async void ReadImage()
@@ -58,28 +64,17 @@ namespace VirtualWindowUWP
 
         }
 
-        private void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-
-            ReadImage();
-            switch (e.Key)
-            {
-                case Windows.System.VirtualKey.A:
-                    ReadImage();
-                    break;
-            }
-        }
-
-        private void ShortKey_Down(object send, Windows.UI.Core.KeyEventArgs e)
+        // CoreWindow.KeyDown event handler only used in this page.
+        private void KeyDownHandle(object send, Windows.UI.Core.KeyEventArgs e)
         {
             Debug.WriteLine("Change");
             switch (e.VirtualKey)
             {
                 case VirtualKey.Escape:
-                    //ESCキーを押した時呼ばれる
+                    // ESCキーを押した時呼ばれる
                     break;
                 case Windows.System.VirtualKey.Z:
-                    //zキーを押した時呼ばれる
+                    // zキーを押した時呼ばれる
                     ReadImage();
                     break;
 
