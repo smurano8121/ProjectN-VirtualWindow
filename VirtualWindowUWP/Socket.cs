@@ -27,11 +27,10 @@ namespace VirtualWindowUWP
 
                 // Start listening for incoming TCP connections on the specified port. You can specify any port that' s not currently in use.
                 await socketListener.BindServiceNameAsync(portNum);
-                Debug.WriteLine("OK.");
             }
             catch (Exception e)
             {
-                Debug.WriteLine("NG");
+                Debug.WriteLine("CreateSocketListener() fault...");
                 // Handle exception.
             }
         }
@@ -49,9 +48,15 @@ namespace VirtualWindowUWP
             StreamReader reader = new StreamReader(inStream);
             string request = await reader.ReadLineAsync();
 
-            Debug.WriteLine("Accept");
-            //string check = CheckCommand(request);
-            await CheckCommand(request);
+            try
+            {
+                await CheckCommand(request);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Command Execution Fault...");
+                Debug.WriteLine(e);
+            }
         }
 
         // http://garicchi.com/?p=5891
