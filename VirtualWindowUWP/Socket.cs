@@ -13,6 +13,7 @@ namespace VirtualWindowUWP
 {
     class Socket
     {
+        private Windows.Networking.Sockets.StreamSocketListener socketListener;
         private Frame rootFrame;
 
         public async void CreateSocketListener(String portNum)
@@ -20,7 +21,7 @@ namespace VirtualWindowUWP
             try
             {
                 // Create a StreamSocketListener to start listening for TCP connections.
-                Windows.Networking.Sockets.StreamSocketListener socketListener = new Windows.Networking.Sockets.StreamSocketListener();
+                socketListener = new Windows.Networking.Sockets.StreamSocketListener();
 
                 // Hook up an event handler to call when connections are received.
                 socketListener.ConnectionReceived += SocketListener_ConnectionReceived;
@@ -105,6 +106,11 @@ namespace VirtualWindowUWP
                 // return "NG";
             });
 
+        }
+
+        public void CloseSocket()
+        {
+            socketListener.Dispose();
         }
     }
 }

@@ -59,13 +59,6 @@ namespace VirtualWindowUWP
             frame.ContentTransitions = new TransitionCollection();
             frame.ContentTransitions.Add(new NavigationThemeTransition());
             frame.Navigate(typeof(LivePage));
-        }
-
-        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        
+        }        
     }
 }
