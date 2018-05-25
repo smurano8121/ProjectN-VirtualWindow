@@ -32,7 +32,7 @@ namespace VirtualWindowUWP
         public void NavigateButtonClick(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            Type pageType;
+            Type pageType = null;
             switch (button.Name)
             {
                 case "liveButton":
@@ -44,38 +44,7 @@ namespace VirtualWindowUWP
                 case "videoButton":
                     pageType = typeof(VideoPage); break;
             }
+            App.NavigateTo(pageType);
         }
-
-        public void BlankButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame frame = this.Frame;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(BlankPage));
-        }
-
-        private void ImageButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame frame = this.Frame;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(ImagePage));
-        }
-
-        private void VideoButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame frame = this.Frame;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(VideoPage));
-        }
-
-        private void LiveButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame frame = this.Frame;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(LivePage));
-        }        
     }
 }
