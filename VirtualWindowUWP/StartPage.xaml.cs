@@ -31,7 +31,19 @@ namespace VirtualWindowUWP
 
         public void NavigateButtonClick(object sender, RoutedEventArgs e)
         {
-            
+            Button button = (Button)sender;
+            Type pageType;
+            switch (button.Name)
+            {
+                case "liveButton":
+                    pageType = typeof(LivePage); break;
+                case "blankButton":
+                    pageType = typeof(BlankPage); break;
+                case "imageButton":
+                    pageType = typeof(ImagePage); break;
+                case "videoButton":
+                    pageType = typeof(VideoPage); break;
+            }
         }
 
         public void BlankButton_Click(object sender, RoutedEventArgs e)
@@ -39,7 +51,7 @@ namespace VirtualWindowUWP
             Frame frame = this.Frame;
             frame.ContentTransitions = new TransitionCollection();
             frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(Blank));
+            frame.Navigate(typeof(BlankPage));
         }
 
         private void ImageButton_Click(object sender, RoutedEventArgs e)
@@ -55,7 +67,7 @@ namespace VirtualWindowUWP
             Frame frame = this.Frame;
             frame.ContentTransitions = new TransitionCollection();
             frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(VideoPane));
+            frame.Navigate(typeof(VideoPage));
         }
 
         private void LiveButton_Click(object sender, RoutedEventArgs e)

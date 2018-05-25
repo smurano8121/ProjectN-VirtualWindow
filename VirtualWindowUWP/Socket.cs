@@ -85,7 +85,7 @@ namespace VirtualWindowUWP
                         // change mode to video mode and set the specified video
                         rootFrame.ContentTransitions = new TransitionCollection();
                         rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(VideoPane));
+                        rootFrame.Navigate(typeof(VideoPage));
                         // return "OK";
                     }
                     else if (msg.IndexOf("LIVE") >= 0)
@@ -101,7 +101,7 @@ namespace VirtualWindowUWP
                         // change mode to blank mode
                         rootFrame.ContentTransitions = new TransitionCollection();
                         rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(Blank));
+                        rootFrame.Navigate(typeof(BlankPage));
                         // return "OK";
                     }
                 });

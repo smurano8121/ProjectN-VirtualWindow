@@ -22,10 +22,10 @@ namespace VirtualWindowUWP
     /// <summary>
     /// それ自体で使用できる空白ページまたはフレーム内に移動できる空白ページ。
     /// </summary>
-    public sealed partial class Blank : Page
+    public sealed partial class BlankPage : Page
     {
 
-        public Blank()
+        public BlankPage()
         {
             this.InitializeComponent();
 

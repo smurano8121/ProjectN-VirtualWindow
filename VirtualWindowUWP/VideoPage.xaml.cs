@@ -17,7 +17,7 @@ using Windows.System;
 
 namespace VirtualWindowUWP
 {
-    public sealed partial class VideoPane : Page
+    public sealed partial class VideoPage : Page
     {
         // To get video library, we have to declare the function in app manifest.
         private static StorageFolder videoLibrary;
@@ -27,7 +27,7 @@ namespace VirtualWindowUWP
         private int videoIndex = 0;
 
 
-        public VideoPane()
+        public VideoPage()
         {
             this.InitializeComponent();
 
