@@ -91,7 +91,9 @@ namespace VirtualWindowUWP
                     else if (msg.IndexOf("LIVE") >= 0)
                     {
                         // change mode to live mode
-
+                        rootFrame.ContentTransitions = new TransitionCollection();
+                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                        rootFrame.Navigate(typeof(LivePage));
                         // return "OK";
                     }
                     else if (msg.IndexOf("BLANK") >= 0)

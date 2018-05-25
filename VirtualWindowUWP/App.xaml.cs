@@ -101,14 +101,10 @@ namespace VirtualWindowUWP
             // Enter to fullscreen mode
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
 
-            // Stretch window size to all working area
-            var x = 0;
-            var y = 0;
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(x, y));
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryResizeView(new Size(x, y));
+            
 
             // manage key listener
-            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            Window.Current.CoreWindow.KeyDown += KeyDownEventHandler;
 
             // create socket datagram
             socket = new Socket();
@@ -116,8 +112,6 @@ namespace VirtualWindowUWP
             socket.setRootFrame(rootFrame);
 
         }
-
-          
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
@@ -146,7 +140,7 @@ namespace VirtualWindowUWP
             socket.CloseSocket();
         }
 
-        private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
+        private void KeyDownEventHandler(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
         {
             Frame frame = Window.Current.Content as Frame;
             frame.ContentTransitions = new TransitionCollection();
@@ -195,5 +189,20 @@ namespace VirtualWindowUWP
             return rootFrame.CurrentSourcePageType.ToString().Replace("VirtualWindowUWP.", "");
         }
 
+        // Stretch window size to all working area
+        public static void StretchWindow()
+        {
+            var x = 0;
+            var y = 0;
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(x, y));
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryResizeView(new Size(x, y));
+        }
+
+        public static void NavigateTo(Type pageType)
+        {
+            rootFrame.ContentTransitions = new TransitionCollection();
+            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+            rootFrame.Navigate(pageType);
+        }
     }
 }

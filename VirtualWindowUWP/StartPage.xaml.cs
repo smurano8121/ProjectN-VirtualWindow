@@ -29,6 +29,11 @@ namespace VirtualWindowUWP
             this.InitializeComponent();
         }
 
+        public void NavigateButtonClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
         public void BlankButton_Click(object sender, RoutedEventArgs e)
         {
             Frame frame = this.Frame;
