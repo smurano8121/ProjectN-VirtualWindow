@@ -12,33 +12,23 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.Storage;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Media.Animation;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=234238 を参照してください
 
 namespace VirtualWindowUWP
 {
-    public sealed partial class VideoPane : Page
+    /// <summary>
+    /// それ自体で使用できる空白ページまたはフレーム内に移動できる空白ページ。
+    /// </summary>
+    public sealed partial class BlankPage : Page
     {
-        // To get video library, declare of function in app manifest is needed
-        private static StorageFolder videoLibrary;
 
-        public VideoPane()
+        public BlankPage()
         {
             this.InitializeComponent();
 
-            videoLibrary = KnownFolders.VideosLibrary;
-
-            ReadVideo();
-        }
-
-        private async void ReadVideo()
-        {
-            // for debug
-            StorageFile video = await videoLibrary.GetFileAsync("virtualWindow\\video_06.mp4");
-            var stream = await video.OpenAsync(Windows.Storage.FileAccessMode.Read);
-
-            videoPlayer.SetSource(stream, video.ContentType);
         }
 
     }

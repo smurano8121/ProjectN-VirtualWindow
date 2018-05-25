@@ -61,23 +61,23 @@
                 <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="LiveButton_Click"
+            <Button x:Name="liveButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick"
                     IsEnabled="False">
                 <Viewbox Margin="25">
                     <TextBlock Foreground="LightGray">ライブ映像</TextBlock>
                 </Viewbox>
             </Button>
-            <Button Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="BlankButton_Click">
+            <Button x:Name="blankButton" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick">
                 <Viewbox Margin="25">
                     <TextBlock Foreground="White">画面オフ</TextBlock>
                 </Viewbox>
             </Button>
-            <Button Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="ImageButton_Click">
+            <Button x:Name="imageButton" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick">
                 <Viewbox Margin="25">
                     <TextBlock Foreground="White">静止画</TextBlock>
                 </Viewbox>
             </Button>
-            <Button Grid.Column="3" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="VideoButton_Click">
+            <Button x:Name="videoButton" Grid.Column="3" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick">
                 <Viewbox Margin="25">
                     <TextBlock Foreground="White">動画</TextBlock>
                 </Viewbox>

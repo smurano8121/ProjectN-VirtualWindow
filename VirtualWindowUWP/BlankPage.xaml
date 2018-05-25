@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="VirtualWindowUWP.VideoPane"
+    x:Class="VirtualWindowUWP.BlankPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VirtualWindowUWP"
@@ -7,8 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="Black">
-        <MediaElement x:Name="videoPlayer" AutoPlay="True" IsLooping="True" Stretch="UniformToFill"/>
+    <!-- I'm not sure why KeyDown event is not registered here... -->
+    <Grid x:Name="LayoutRoot" Background="Black">
 
     </Grid>
+
 </Page>

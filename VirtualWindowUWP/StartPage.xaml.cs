@@ -29,43 +29,22 @@ namespace VirtualWindowUWP
             this.InitializeComponent();
         }
 
-        public void BlankButton_Click(object sender, RoutedEventArgs e)
+        public void NavigateButtonClick(object sender, RoutedEventArgs e)
         {
-            Frame frame = this.Frame;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(Blank));
+            Button button = (Button)sender;
+            Type pageType = null;
+            switch (button.Name)
+            {
+                case "liveButton":
+                    pageType = typeof(LivePage); break;
+                case "blankButton":
+                    pageType = typeof(BlankPage); break;
+                case "imageButton":
+                    pageType = typeof(ImagePage); break;
+                case "videoButton":
+                    pageType = typeof(VideoPage); break;
+            }
+            App.NavigateTo(pageType);
         }
-
-        private void ImageButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame frame = this.Frame;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(ImagePage));
-        }
-
-        private void VideoButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame frame = this.Frame;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(VideoPane));
-        }
-
-        private void LiveButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame frame = this.Frame;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.ContentTransitions.Add(new NavigationThemeTransition());
-            frame.Navigate(typeof(LivePage));
-        }
-
-        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        
     }
 }
