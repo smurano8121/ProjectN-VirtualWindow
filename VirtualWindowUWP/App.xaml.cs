@@ -26,6 +26,9 @@ namespace VirtualWindowUWP
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
    
+
+    // test
+
     sealed partial class App : Application
     {
         /// <summary>
