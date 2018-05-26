@@ -106,6 +106,30 @@ namespace VirtualWindowUWP
                             rootFrame.Navigate(typeof(BlankPage));
                             // return "OK";
                         }
+                        else if (msg.IndexOf("NEXT") >= 0)
+                        {
+                            switch (App.GetMode())
+                            {
+                                case "ImagePage":
+                                    ImagePage.NextImage(); break;
+                                case "VideoPage":
+                                    VideoPage.NextVideo(); break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else if (msg.IndexOf("PREVIOUS") >= 0)
+                        {
+                            switch (App.GetMode())
+                            {
+                                case "ImagePage":
+                                    ImagePage.PreviousImage(); break;
+                                case "VideoPage":
+                                    VideoPage.PreviousVideo(); break;
+                                default:
+                                    break;
+                            }
+                        }
                     }
                     catch
                     {

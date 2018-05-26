@@ -22,9 +22,9 @@ namespace VirtualWindowUWP
         // To get video library, we have to declare the function in app manifest.
         private static StorageFolder videoLibrary;
         // The list which contains stored videos in video library.
-        private IReadOnlyList<StorageFile> storedVideo;
+        private static IReadOnlyList<StorageFile> storedVideo;
         // File number index of stored video which is shown in Media Element.
-        private int videoIndex = 0;
+        private static int videoIndex = 0;
 
 
         public VideoPage()
@@ -69,13 +69,23 @@ namespace VirtualWindowUWP
             switch (e.VirtualKey)
             {
                 case VirtualKey.Right:
-                    videoIndex = videoIndex == storedVideo.Count - 1 ? 0 : videoIndex + 1;
+                    NextVideo();
                     break;
                 case VirtualKey.Left:
-                    videoIndex = videoIndex == 0 ? storedVideo.Count - 1 : videoIndex - 1;
+                    PreviousVideo();
                     break;
             }
             ReadVideo();
+        }
+
+        public static void NextVideo()
+        {
+            videoIndex = videoIndex == storedVideo.Count - 1 ? 0 : videoIndex + 1;
+        }
+
+        public static void PreviousVideo()
+        {
+            videoIndex = videoIndex == 0 ? storedVideo.Count - 1 : videoIndex - 1;
         }
     }
 }
