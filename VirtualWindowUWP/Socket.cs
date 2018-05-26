@@ -71,41 +71,47 @@ namespace VirtualWindowUWP
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
                 {
-                    if (msg.IndexOf("IMAGE") >= 0)
+                    try
                     {
-                        Debug.WriteLine("Image!");
-                        // change mode to image mode and set the specified picture
-                        rootFrame.ContentTransitions = new TransitionCollection();
-                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(ImagePage));
-                        // return "OK";
+                        if (msg.IndexOf("IMAGE") >= 0)
+                        {
+                            Debug.WriteLine("Image!");
+                            // change mode to image mode and set the specified picture
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(ImagePage));
+                            // return "OK";
+                        }
+                        else if (msg.IndexOf("VIDEO") >= 0)
+                        {
+                            // change mode to video mode and set the specified video
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(VideoPage));
+                            // return "OK";
+                        }
+                        else if (msg.IndexOf("LIVE") >= 0)
+                        {
+                            // change mode to live mode
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(LivePage));
+                            // return "OK";
+                        }
+                        else if (msg.IndexOf("BLANK") >= 0)
+                        {
+                            // change mode to blank mode
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(BlankPage));
+                            // return "OK";
+                        }
                     }
-                    else if (msg.IndexOf("VIDEO") >= 0)
+                    catch
                     {
-                        // change mode to video mode and set the specified video
-                        rootFrame.ContentTransitions = new TransitionCollection();
-                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(VideoPage));
-                        // return "OK";
-                    }
-                    else if (msg.IndexOf("LIVE") >= 0)
-                    {
-                        // change mode to live mode
-                        rootFrame.ContentTransitions = new TransitionCollection();
-                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(LivePage));
-                        // return "OK";
-                    }
-                    else if (msg.IndexOf("BLANK") >= 0)
-                    {
-                        // change mode to blank mode
-                        rootFrame.ContentTransitions = new TransitionCollection();
-                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(BlankPage));
-                        // return "OK";
+                        Debug.WriteLine("Navigate failed.");
                     }
                 });
-                // return "NG";
             });
 
         }
