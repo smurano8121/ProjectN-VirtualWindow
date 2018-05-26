@@ -181,6 +181,7 @@ namespace VirtualWindowUWP
                         frame.BackStack.Clear();
                     }
                     break;
+                // for debug!
                 case Windows.System.VirtualKey.D:
                     Debug.WriteLine(GetMode());
                     break;

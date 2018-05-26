@@ -84,7 +84,6 @@ namespace VirtualWindowUWP
         // CoreWindow.KeyDown event handler only used in this page.
         private void KeyDownHandle(object send, Windows.UI.Core.KeyEventArgs e)
         {
-            Debug.WriteLine("Change");
             switch (e.VirtualKey)
             {
                 case VirtualKey.Right:
