@@ -27,9 +27,9 @@ namespace VirtualWindowUWP
         // To get picture library, we have to declare the function in app manifest.
         private static StorageFolder pictureLibrary;
         // The list which contains stored pictures in picture library.
-        private IReadOnlyList<StorageFile> storedPicture;
+        private static IReadOnlyList<StorageFile> storedPicture;
         // File number index of stored picture which is shown in Image view.
-        private int imageIndex = 0;
+        private static int imageIndex = 0;
 
         public ImagePage()
         {
@@ -88,13 +88,23 @@ namespace VirtualWindowUWP
             switch (e.VirtualKey)
             {
                 case VirtualKey.Right:
-                    imageIndex = imageIndex == storedPicture.Count-1 ? 0 : imageIndex + 1;
+                    NextImage();
                     break;
                 case VirtualKey.Left:
-                    imageIndex = imageIndex == 0 ? storedPicture.Count-1 : imageIndex - 1;
+                    PreviousImage();
                     break;
             }
             ReadImage();
+        }
+
+        public static void NextImage()
+        {
+            imageIndex = imageIndex == storedPicture.Count - 1 ? 0 : imageIndex + 1;
+        }
+
+        public static void PreviousImage()
+        {
+            imageIndex = imageIndex == 0 ? storedPicture.Count - 1 : imageIndex - 1;
         }
     }
 }
