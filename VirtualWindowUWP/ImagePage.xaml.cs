@@ -21,27 +21,25 @@ using Windows.System;
 using Windows.UI.Core;
 
 namespace VirtualWindowUWP
-{   
+{
     public sealed partial class ImagePage : Page
     {
         // To get picture library, we have to declare the function in app manifest.
-        private static StorageFolder pictureLibrary;
-        // The list which contains stored pictures in picture library.
-        private IReadOnlyList<StorageFile> storedPicture;
-        // File number index of stored picture which is shown in Image view.
-        private int imageIndex = 0;
+        private static StorageFolder pictureLiblary;
 
         public ImagePage()
         {
             this.InitializeComponent();
             pictureLiblary = KnownFolders.PicturesLibrary;
-            Window.Current.CoreWindow.KeyDown += ShortKey_Down;
-            //ReadImage();
+            CoreWindow.GetForCurrentThread().KeyDown += ShortKey_Down;
+            //Window.Current.CoreWindow.KeyDown += ShortKey_Down;
         }
 
         private async void ReadImage()
         {
-            Windows.Storage.StorageFile pic = storedPicture[imageIndex];
+            Debug.WriteLine("OK.");
+            // for debug
+            Windows.Storage.StorageFile pic = await pictureLiblary.GetFileAsync("virtualWindow\\pic_01.jpg");
 
             BitmapImage img = new BitmapImage();
             img = await LoadImage(pic);
@@ -60,7 +58,7 @@ namespace VirtualWindowUWP
 
         }
 
-        private void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
+        /*private void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
         {
 
             ReadImage();
@@ -70,22 +68,21 @@ namespace VirtualWindowUWP
                     ReadImage();
                     break;
             }
-        }
+        }*/
 
-        // CoreWindow.KeyDown event handler only used in this page.
-        private void KeyDownHandle(object send, Windows.UI.Core.KeyEventArgs e)
+        private void ShortKey_Down(object send, Windows.UI.Core.KeyEventArgs e)
         {
             switch (e.VirtualKey)
             {
-                case VirtualKey.Right:
-                    imageIndex = imageIndex == storedPicture.Count-1 ? 0 : imageIndex + 1;
+                case VirtualKey.Escape:
+                    //ESCキーを押した時呼ばれる
                     break;
-                case Windows.System.VirtualKey.Z:
+                case VirtualKey.Z:
                     //zキーを押した時呼ばれる
+                    Debug.WriteLine("Change");
                     ReadImage();
                     break;
             }
-            ReadImage();
         }
     }
 }
