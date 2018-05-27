@@ -149,6 +149,7 @@ namespace VirtualWindowUWP
                      }
                  });
 
+                 // send back result strings
                  await writer.WriteLineAsync(result);
                  await writer.FlushAsync();
              });
