@@ -51,7 +51,7 @@ namespace VirtualWindowUWP
 
             try
             {
-                await CheckCommand(request);
+                await CheckCommand(request, args);
             }
             catch (Exception e)
             {
@@ -62,81 +62,88 @@ namespace VirtualWindowUWP
 
         // http://garicchi.com/?p=5891
         // string CheckCommand(String msg)
-        private async Task CheckCommand(String msg)
+        private async Task CheckCommand(String msg, Windows.Networking.Sockets.StreamSocketListenerConnectionReceivedEventArgs args)
         {
             await Task.Run(async () =>
-            {
-                Debug.WriteLine("check command.");
+             {
+                 string result = "";
+                 Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
+                 StreamWriter writer = new StreamWriter(outStream);
 
-                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    try
-                    {
-                        if (msg.IndexOf("IMAGE") >= 0)
-                        {
-                            Debug.WriteLine("Image!");
+                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                 () =>
+                 {
+                     try
+                     {
+                         if (msg.IndexOf("IMAGE") >= 0)
+                         {
                             // change mode to image mode and set the specified picture
                             rootFrame.ContentTransitions = new TransitionCollection();
                             rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                             rootFrame.Navigate(typeof(ImagePage));
-                            // return "OK";
+                            result = "OK";
                         }
-                        else if (msg.IndexOf("VIDEO") >= 0)
-                        {
+                         else if (msg.IndexOf("VIDEO") >= 0)
+                         {
                             // change mode to video mode and set the specified video
                             rootFrame.ContentTransitions = new TransitionCollection();
                             rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                             rootFrame.Navigate(typeof(VideoPage));
-                            // return "OK";
+                            result = "OK";
                         }
-                        else if (msg.IndexOf("LIVE") >= 0)
-                        {
+                         else if (msg.IndexOf("LIVE") >= 0)
+                         {
                             // change mode to live mode
                             rootFrame.ContentTransitions = new TransitionCollection();
                             rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                             rootFrame.Navigate(typeof(LivePage));
-                            // return "OK";
+                            result = "OK";
                         }
-                        else if (msg.IndexOf("BLANK") >= 0)
-                        {
+                         else if (msg.IndexOf("BLANK") >= 0)
+                         {
                             // change mode to blank mode
                             rootFrame.ContentTransitions = new TransitionCollection();
                             rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                             rootFrame.Navigate(typeof(BlankPage));
-                            // return "OK";
+                            result = "OK";
                         }
-                        else if (msg.IndexOf("NEXT") >= 0)
-                        {
-                            switch (App.GetMode())
-                            {
-                                case "ImagePage":
-                                    ImagePage.NextImage(); break;
-                                case "VideoPage":
-                                    VideoPage.NextVideo(); break;
-                                default:
-                                    break;
-                            }
-                        }
-                        else if (msg.IndexOf("PREVIOUS") >= 0)
-                        {
-                            switch (App.GetMode())
-                            {
-                                case "ImagePage":
-                                    ImagePage.PreviousImage(); break;
-                                case "VideoPage":
-                                    VideoPage.PreviousVideo(); break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        Debug.WriteLine("Navigate failed.");
-                    }
-                });
-            });
+                         else if (msg.IndexOf("NEXT") >= 0)
+                         {
+                             switch (App.GetMode())
+                             {
+                                 case "ImagePage":
+                                     ImagePage.NextImage(); break;
+                                 case "VideoPage":
+                                     VideoPage.NextVideo(); break;
+                                 default:
+                                     break;
+                             }
+                             result = "OK";
+                         }
+                         else if (msg.IndexOf("PREVIOUS") >= 0)
+                         {
+                             switch (App.GetMode())
+                             {
+                                 case "ImagePage":
+                                     ImagePage.PreviousImage(); break;
+                                 case "VideoPage":
+                                     VideoPage.PreviousVideo(); break;
+                                 default:
+                                     break;
+                             }
+                             result = "OK";
+                         }
+                     }
+                     catch
+                     {
+                         Debug.WriteLine("Navigate failed.");
+                         result = "NG";
+                     }
+                 });
+
+                 await writer.WriteLineAsync(result);
+                 await writer.FlushAsync();
+             });
 
         }
 
