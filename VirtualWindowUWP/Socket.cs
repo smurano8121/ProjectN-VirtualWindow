@@ -133,11 +133,19 @@ namespace VirtualWindowUWP
                              }
                              result = "OK";
                          }
+                         else if (msg.IndexOf("GET_MODE") >= 0)
+                         {
+                             result = App.GetMode();
+                         }
+                         else
+                         {
+                             result = "Invalid command.";
+                         }
                      }
                      catch
                      {
-                         Debug.WriteLine("Navigate failed.");
-                         result = "NG";
+                         Debug.WriteLine("Failed to send command.");
+                         result = "Failed to send command.";
                      }
                  });
 
