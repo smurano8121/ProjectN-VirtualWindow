@@ -31,6 +31,10 @@ namespace VirtualWindowUWP
         // File number index of stored picture which is shown in Image view.
         private static int imageIndex = 0;
 
+        private static Image image;
+
+ 
+
         public ImagePage()
         {
             this.InitializeComponent();
@@ -47,6 +51,8 @@ namespace VirtualWindowUWP
             {
                 Window.Current.CoreWindow.KeyDown -= KeyDownHandle;
             };
+
+            image = imageView;
         }
 
         private async void GetImageList()
@@ -60,14 +66,14 @@ namespace VirtualWindowUWP
             ReadImage();
         }
 
-        private async void ReadImage()
+        private static async void ReadImage()
         {
             Windows.Storage.StorageFile pic = storedPicture[imageIndex];
 
             BitmapImage img = new BitmapImage();
             img = await LoadImage(pic);
 
-            imageView.Source = img;
+            image.Source = img;
         }
 
         private static async Task<BitmapImage> LoadImage(StorageFile file)
@@ -93,17 +99,18 @@ namespace VirtualWindowUWP
                     PreviousImage();
                     break;
             }
-            ReadImage();
         }
 
         public static void NextImage()
         {
             imageIndex = imageIndex == storedPicture.Count - 1 ? 0 : imageIndex + 1;
+            ReadImage();
         }
 
         public static void PreviousImage()
         {
             imageIndex = imageIndex == 0 ? storedPicture.Count - 1 : imageIndex - 1;
+            ReadImage();
         }
     }
 }
