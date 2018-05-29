@@ -25,7 +25,7 @@ namespace VirtualWindowUWP
         private static IReadOnlyList<StorageFile> storedVideo;
         // File number index of stored video which is shown in Media Element.
         private static int videoIndex = 0;
-
+        // Media element static object
         private static MediaElement videoObject;
 
         public VideoPage()
