@@ -83,7 +83,7 @@ namespace VirtualWindowUWP
                         rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                         rootFrame.Navigate(typeof(ImagePage));
                         result = "OK";
-                    }
+                        }
                         else if (msg.IndexOf("VIDEO") >= 0)
                         {
                         // change mode to video mode and set the specified video
@@ -91,7 +91,7 @@ namespace VirtualWindowUWP
                         rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                         rootFrame.Navigate(typeof(VideoPage));
                         result = "OK";
-                    }
+                        }
                         else if (msg.IndexOf("LIVE") >= 0)
                         {
                         // change mode to live mode
@@ -99,7 +99,7 @@ namespace VirtualWindowUWP
                         rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                         rootFrame.Navigate(typeof(LivePage));
                         result = "OK";
-                    }
+                        }
                         else if (msg.IndexOf("BLANK") >= 0)
                         {
                         // change mode to blank mode
@@ -107,7 +107,7 @@ namespace VirtualWindowUWP
                         rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                         rootFrame.Navigate(typeof(BlankPage));
                         result = "OK";
-                    }
+                        }
                         else if (msg.IndexOf("NEXT") >= 0)
                         {
                             Debug.WriteLine(App.GetMode());
@@ -155,6 +155,8 @@ namespace VirtualWindowUWP
                 // send back result strings
                 await writer.WriteLineAsync(result);
                 await writer.FlushAsync();
+
+                Debug.WriteLine(result);
             });
 
         }
