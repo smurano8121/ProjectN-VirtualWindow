@@ -11,10 +11,8 @@
     <Grid x:Name="imageGrid" Background="Black">
         <Image x:Name="image"  Stretch="UniformToFill"/>
     </Grid>
-
-    <!--
-
-    <Grid>
+    
+    <!--<Grid>
         <vlc:MediaElement
             x:Name="vlc_player"
             AreTransportControlsEnabled="True">
@@ -22,7 +20,6 @@
                 <vlc:MediaTransportControls ControlPanelOpacity="0.8" />
             </vlc:MediaElement.TransportControls>
         </vlc:MediaElement>
-    </Grid>
-    -->
+    </Grid>-->
 
 </Page>

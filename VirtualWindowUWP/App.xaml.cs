@@ -39,6 +39,7 @@ namespace VirtualWindowUWP
         public static Frame rootFrame;
 
         Socket socket;
+        HttpServer httpServer;
 
         public App()
         {
@@ -113,6 +114,8 @@ namespace VirtualWindowUWP
             socket.CreateSocketListener("50005");
             socket.setRootFrame(rootFrame);
 
+            // create original HTTP server
+            httpServer = new HttpServer(50006);
         }
 
         /// <summary>

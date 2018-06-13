@@ -25,7 +25,8 @@ namespace VirtualWindowUWP
         private static IReadOnlyList<StorageFile> storedVideo;
         // File number index of stored video which is shown in Media Element.
         private static int videoIndex = 0;
-
+        // Media element static object
+        private static MediaElement videoObject;
 
         public VideoPage()
         {
@@ -43,6 +44,8 @@ namespace VirtualWindowUWP
             {
                 Window.Current.CoreWindow.KeyDown -= KeyDownHandle;
             };
+
+            videoObject = videoPlayer;
         }
         private async void GetVideoList()
         {
@@ -55,12 +58,12 @@ namespace VirtualWindowUWP
             ReadVideo();
         }
 
-        private async void ReadVideo()
+        private static async void ReadVideo()
         {
             StorageFile video = storedVideo[videoIndex];
             var stream = await video.OpenAsync(Windows.Storage.FileAccessMode.Read);
 
-            videoPlayer.SetSource(stream, video.ContentType);
+            videoObject.SetSource(stream, video.ContentType);
         }
 
         // CoreWindow.KeyDown event handler only used in this page.
@@ -75,17 +78,18 @@ namespace VirtualWindowUWP
                     PreviousVideo();
                     break;
             }
-            ReadVideo();
         }
 
         public static void NextVideo()
         {
             videoIndex = videoIndex == storedVideo.Count - 1 ? 0 : videoIndex + 1;
+            ReadVideo();
         }
 
         public static void PreviousVideo()
         {
             videoIndex = videoIndex == 0 ? storedVideo.Count - 1 : videoIndex - 1;
+            ReadVideo();
         }
     }
 }

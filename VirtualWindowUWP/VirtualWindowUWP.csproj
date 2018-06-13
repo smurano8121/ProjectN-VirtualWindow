@@ -98,6 +98,7 @@
     <Compile Include="BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HttpServer.cs" />
     <Compile Include="ImagePage.xaml.cs">
       <DependentUpon>ImagePage.xaml</DependentUpon>
     </Compile>
@@ -117,19 +118,45 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Assets\UWP_Icon.ai" />
     <None Include="dll\MjpegProcessor.winmd" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\AppListIcon.scale-100.png" />
+    <Content Include="Assets\AppListIcon.scale-125.png" />
+    <Content Include="Assets\AppListIcon.scale-150.png" />
+    <Content Include="Assets\AppListIcon.scale-200.png" />
+    <Content Include="Assets\AppListIcon.scale-400.png" />
+    <Content Include="Assets\LargeTile.scale-100.png" />
+    <Content Include="Assets\LargeTile.scale-125.png" />
+    <Content Include="Assets\LargeTile.scale-150.png" />
+    <Content Include="Assets\LargeTile.scale-200.png" />
+    <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\MediumTile.scale-100.png" />
+    <Content Include="Assets\MediumTile.scale-125.png" />
+    <Content Include="Assets\MediumTile.scale-150.png" />
+    <Content Include="Assets\MediumTile.scale-200.png" />
+    <Content Include="Assets\MediumTile.scale-400.png" />
+    <Content Include="Assets\SmallTile.scale-100.png" />
+    <Content Include="Assets\SmallTile.scale-125.png" />
+    <Content Include="Assets\SmallTile.scale-150.png" />
+    <Content Include="Assets\SmallTile.scale-200.png" />
+    <Content Include="Assets\SmallTile.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\WideTile.scale-100.png" />
+    <Content Include="Assets\WideTile.scale-125.png" />
+    <Content Include="Assets\WideTile.scale-150.png" />
+    <Content Include="Assets\WideTile.scale-200.png" />
+    <Content Include="Assets\WideTile.scale-400.png" />
     <Content Include="Images\default.jpg" />
     <Content Include="Images\StartPage.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

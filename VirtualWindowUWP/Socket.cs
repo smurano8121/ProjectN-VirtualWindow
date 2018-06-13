@@ -28,6 +28,7 @@ namespace VirtualWindowUWP
 
                 // Start listening for incoming TCP connections on the specified port. You can specify any port that' s not currently in use.
                 await socketListener.BindServiceNameAsync(portNum);
+
             }
             catch (Exception e)
             {
@@ -65,94 +66,98 @@ namespace VirtualWindowUWP
         private async Task CheckCommand(String msg, Windows.Networking.Sockets.StreamSocketListenerConnectionReceivedEventArgs args)
         {
             await Task.Run(async () =>
-             {
-                 string result = "";
-                 Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
-                 StreamWriter writer = new StreamWriter(outStream);
+            {
+                string result = "";
+                Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
+                StreamWriter writer = new StreamWriter(outStream);
 
-                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                 () =>
-                 {
-                     try
-                     {
-                         if (msg.IndexOf("IMAGE") >= 0)
-                         {
-                            // change mode to image mode and set the specified picture
-                            rootFrame.ContentTransitions = new TransitionCollection();
-                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                            rootFrame.Navigate(typeof(ImagePage));
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    try
+                    {
+                        if (msg.IndexOf("IMAGE") >= 0)
+                        {
+                        // change mode to image mode and set the specified picture
+                        rootFrame.ContentTransitions = new TransitionCollection();
+                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                        rootFrame.Navigate(typeof(ImagePage));
+                        result = "OK";
+                        }
+                        else if (msg.IndexOf("VIDEO") >= 0)
+                        {
+                        // change mode to video mode and set the specified video
+                        rootFrame.ContentTransitions = new TransitionCollection();
+                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                        rootFrame.Navigate(typeof(VideoPage));
+                        result = "OK";
+                        }
+                        else if (msg.IndexOf("LIVE") >= 0)
+                        {
+                        // change mode to live mode
+                        rootFrame.ContentTransitions = new TransitionCollection();
+                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                        rootFrame.Navigate(typeof(LivePage));
+                        result = "OK";
+                        }
+                        else if (msg.IndexOf("BLANK") >= 0)
+                        {
+                        // change mode to blank mode
+                        rootFrame.ContentTransitions = new TransitionCollection();
+                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                        rootFrame.Navigate(typeof(BlankPage));
+                        result = "OK";
+                        }
+                        else if (msg.IndexOf("NEXT") >= 0)
+                        {
+                            Debug.WriteLine(App.GetMode());
+                            ImagePage.NextImage();
+                            switch (App.GetMode())
+                            {
+                                case "ImagePage":
+                                    ImagePage.NextImage(); break;
+                                case "VideoPage":
+                                    VideoPage.NextVideo(); break;
+                                default:
+                                    break;
+                            }
                             result = "OK";
                         }
-                         else if (msg.IndexOf("VIDEO") >= 0)
-                         {
-                            // change mode to video mode and set the specified video
-                            rootFrame.ContentTransitions = new TransitionCollection();
-                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                            rootFrame.Navigate(typeof(VideoPage));
+                        else if (msg.IndexOf("PREVIOUS") >= 0)
+                        {
+                            switch (App.GetMode())
+                            {
+                                case "ImagePage":
+                                    ImagePage.PreviousImage(); break;
+                                case "VideoPage":
+                                    VideoPage.PreviousVideo(); break;
+                                default:
+                                    break;
+                            }
                             result = "OK";
                         }
-                         else if (msg.IndexOf("LIVE") >= 0)
-                         {
-                            // change mode to live mode
-                            rootFrame.ContentTransitions = new TransitionCollection();
-                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                            rootFrame.Navigate(typeof(LivePage));
-                            result = "OK";
+                        else if (msg.IndexOf("GET_MODE") >= 0)
+                        {
+                            result = App.GetMode();
                         }
-                         else if (msg.IndexOf("BLANK") >= 0)
-                         {
-                            // change mode to blank mode
-                            rootFrame.ContentTransitions = new TransitionCollection();
-                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                            rootFrame.Navigate(typeof(BlankPage));
-                            result = "OK";
+                        else
+                        {
+                            result = "Invalid command.";
                         }
-                         else if (msg.IndexOf("NEXT") >= 0)
-                         {
-                             switch (App.GetMode())
-                             {
-                                 case "ImagePage":
-                                     ImagePage.NextImage(); break;
-                                 case "VideoPage":
-                                     VideoPage.NextVideo(); break;
-                                 default:
-                                     break;
-                             }
-                             result = "OK";
-                         }
-                         else if (msg.IndexOf("PREVIOUS") >= 0)
-                         {
-                             switch (App.GetMode())
-                             {
-                                 case "ImagePage":
-                                     ImagePage.PreviousImage(); break;
-                                 case "VideoPage":
-                                     VideoPage.PreviousVideo(); break;
-                                 default:
-                                     break;
-                             }
-                             result = "OK";
-                         }
-                         else if (msg.IndexOf("GET_MODE") >= 0)
-                         {
-                             result = App.GetMode();
-                         }
-                         else
-                         {
-                             result = "Invalid command.";
-                         }
-                     }
-                     catch
-                     {
-                         Debug.WriteLine("Failed to send command.");
-                         result = "Failed to send command.";
-                     }
-                 });
+                    }
+                    catch
+                    {
+                        Debug.WriteLine("Failed to send command.");
+                        result = "Failed to send command.";
+                    }
+                });
 
-                 // send back result strings
-                 await writer.WriteLineAsync(result);
-                 await writer.FlushAsync();
-             });
+                // send back result strings
+                await writer.WriteLineAsync(result);
+                await writer.FlushAsync();
+
+                Debug.WriteLine(result);
+            });
 
         }
 

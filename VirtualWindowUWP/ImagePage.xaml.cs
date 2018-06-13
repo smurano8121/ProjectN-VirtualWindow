@@ -19,6 +19,7 @@ using Windows.Storage.Streams;
 using System.Diagnostics;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.Storage.FileProperties;
 
 namespace VirtualWindowUWP
 {   
@@ -30,6 +31,11 @@ namespace VirtualWindowUWP
         private static IReadOnlyList<StorageFile> storedPicture;
         // File number index of stored picture which is shown in Image view.
         private static int imageIndex = 0;
+        // ImageView static object
+        private static Image imageViewObject;
+        // Thumbnail object
+        private static List<StorageItemThumbnail> thumbnailList;
+
 
         public ImagePage()
         {
@@ -47,6 +53,9 @@ namespace VirtualWindowUWP
             {
                 Window.Current.CoreWindow.KeyDown -= KeyDownHandle;
             };
+
+            // set imageView into static variable
+            imageViewObject = imageView;
         }
 
         private async void GetImageList()
@@ -58,16 +67,19 @@ namespace VirtualWindowUWP
             // Show first image file stored in picture library.
             // Note: "first image" means the top file when files are sorted by Name.
             ReadImage();
+
+            // // get tumbnails
+            GetThumbs();
         }
 
-        private async void ReadImage()
+        private static async void ReadImage()
         {
             Windows.Storage.StorageFile pic = storedPicture[imageIndex];
 
             BitmapImage img = new BitmapImage();
             img = await LoadImage(pic);
 
-            imageView.Source = img;
+            imageViewObject.Source = img;
         }
 
         private static async Task<BitmapImage> LoadImage(StorageFile file)
@@ -93,17 +105,33 @@ namespace VirtualWindowUWP
                     PreviousImage();
                     break;
             }
-            ReadImage();
         }
 
         public static void NextImage()
         {
             imageIndex = imageIndex == storedPicture.Count - 1 ? 0 : imageIndex + 1;
+            ReadImage();
         }
 
         public static void PreviousImage()
         {
             imageIndex = imageIndex == 0 ? storedPicture.Count - 1 : imageIndex - 1;
+            ReadImage();
+        }
+
+        public async void GetThumbs()
+        {
+            thumbnailList = new List<StorageItemThumbnail>();
+            foreach (StorageFile file in storedPicture)
+            {
+                // Get thumbnail
+                const uint requestedSize = 190;
+                const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
+                const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
+                var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                thumbnailList.Add(tmp);
+            }
+            Debug.WriteLine(thumbnailList.Count);
         }
     }
 }
