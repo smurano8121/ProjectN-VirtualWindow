@@ -104,7 +104,6 @@ namespace VirtualWindowUWP
             // Enter to fullscreen mode
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
 
-            
 
             // manage key listener
             Window.Current.CoreWindow.KeyDown += KeyDownEventHandler;

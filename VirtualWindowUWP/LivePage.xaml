@@ -8,6 +8,12 @@
     xmlns:vlc="using:VLC"
     mc:Ignorable="d">
 
+    <Grid x:Name="imageGrid" Background="Black">
+        <Image x:Name="image"  Stretch="UniformToFill"/>
+    </Grid>
+
+    <!--
+
     <Grid>
         <vlc:MediaElement
             x:Name="vlc_player"
@@ -17,5 +23,6 @@
             </vlc:MediaElement.TransportControls>
         </vlc:MediaElement>
     </Grid>
+    -->
 
 </Page>

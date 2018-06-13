@@ -60,9 +60,8 @@
                 <ColumnDefinition Width="25*"/>
                 <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
-
-            <Button x:Name="liveButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick"
-                    IsEnabled="False">
+            <!--IsEnabled="False"-->
+            <Button x:Name="liveButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick">
                 <Viewbox Margin="25">
                     <TextBlock Foreground="LightGray">ライブ映像</TextBlock>
                 </Viewbox>
