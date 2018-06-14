@@ -26,7 +26,7 @@ namespace VirtualWindowUWP
     public sealed partial class ImagePage : Page
     {
         // To get picture library, we have to declare the function in app manifest.
-        private static StorageFolder pictureLibrary;
+        private static StorageFolder pictureLibrary = KnownFolders.PicturesLibrary;
         // The list which contains stored pictures in picture library.
         private static IReadOnlyList<StorageFile> storedPicture;
         // File number index of stored picture which is shown in Image view.
@@ -41,11 +41,6 @@ namespace VirtualWindowUWP
         {
             this.InitializeComponent();
 
-            pictureLibrary = KnownFolders.PicturesLibrary;
-
-            // Read Image File from picture library.
-            GetImageList();
-
             // Add KeyDown event handler into CoreWindow
             // Have to remove this handler when this page is unloaded.
             Window.Current.CoreWindow.KeyDown += KeyDownHandle;
@@ -56,17 +51,17 @@ namespace VirtualWindowUWP
 
             // set imageView into static variable
             imageViewObject = imageView;
-        }
-
-        private async void GetImageList()
-        {
-            // load image files upto 100.
-            pictureLibrary = await pictureLibrary.GetFolderAsync("VirtualWindow");
-            storedPicture = await pictureLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
 
             // Show first image file stored in picture library.
             // Note: "first image" means the top file when files are sorted by Name.
             ReadImage();
+        }
+
+        public static async void GetImageList()
+        {
+            // load image files upto 100.
+            pictureLibrary = await pictureLibrary.GetFolderAsync("VirtualWindow");
+            storedPicture = await pictureLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
 
             // // get tumbnails
             GetThumbs();
@@ -119,7 +114,7 @@ namespace VirtualWindowUWP
             ReadImage();
         }
 
-        public async void GetThumbs()
+        public static async void GetThumbs()
         {
             thumbnailList = new List<StorageItemThumbnail>();
             foreach (StorageFile file in storedPicture)
@@ -131,7 +126,11 @@ namespace VirtualWindowUWP
                 var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
                 thumbnailList.Add(tmp);
             }
-            Debug.WriteLine(thumbnailList.Count);
+        }
+
+        public static List<StorageItemThumbnail> GetThumbnailList()
+        {
+            return thumbnailList;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -15,6 +16,10 @@ namespace VirtualWindowUWP
     {
         private Windows.Networking.Sockets.StreamSocketListener socketListener;
         private Frame rootFrame;
+        Stream inStream;
+        Stream outStream;
+        StreamReader streamReader;
+        StreamWriter streamWriter;
 
         public async void CreateSocketListener(String portNum)
         {
@@ -46,9 +51,9 @@ namespace VirtualWindowUWP
         Windows.Networking.Sockets.StreamSocketListenerConnectionReceivedEventArgs args)
         {
             // Read line from the remote client.
-            Stream inStream = args.Socket.InputStream.AsStreamForRead();
-            StreamReader reader = new StreamReader(inStream);
-            string request = await reader.ReadLineAsync();
+            inStream = args.Socket.InputStream.AsStreamForRead();
+            streamReader = new StreamReader(inStream);
+            string request = await streamReader.ReadLineAsync();
 
             try
             {
@@ -68,47 +73,49 @@ namespace VirtualWindowUWP
             await Task.Run(async () =>
             {
                 string result = "";
-                Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
-                StreamWriter writer = new StreamWriter(outStream);
+                outStream = args.Socket.OutputStream.AsStreamForWrite();
+                streamWriter = new StreamWriter(outStream);
 
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
                 {
                     try
                     {
-                        if (msg.IndexOf("IMAGE") >= 0)
+                        Debug.WriteLine(msg);
+                        // if (msg.IndexOf("IMAGE") >= 0)
+                        if (msg == "IMAGE")
                         {
-                        // change mode to image mode and set the specified picture
-                        rootFrame.ContentTransitions = new TransitionCollection();
-                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(ImagePage));
-                        result = "OK";
+                            // change mode to image mode and set the specified picture
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(ImagePage));
+                            result = "OK";
                         }
-                        else if (msg.IndexOf("VIDEO") >= 0)
+                        else if (msg == "VIDEO")
                         {
-                        // change mode to video mode and set the specified video
-                        rootFrame.ContentTransitions = new TransitionCollection();
-                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(VideoPage));
-                        result = "OK";
+                            // change mode to video mode and set the specified video
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(VideoPage));
+                            result = "OK";
                         }
-                        else if (msg.IndexOf("LIVE") >= 0)
+                        else if (msg == "LIVE")
                         {
-                        // change mode to live mode
-                        rootFrame.ContentTransitions = new TransitionCollection();
-                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(LivePage));
-                        result = "OK";
+                            // change mode to live mode
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(LivePage));
+                            result = "OK";
                         }
-                        else if (msg.IndexOf("BLANK") >= 0)
+                        else if (msg == "BLANK")
                         {
-                        // change mode to blank mode
-                        rootFrame.ContentTransitions = new TransitionCollection();
-                        rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
-                        rootFrame.Navigate(typeof(BlankPage));
-                        result = "OK";
+                            // change mode to blank mode
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(BlankPage));
+                            result = "OK";
                         }
-                        else if (msg.IndexOf("NEXT") >= 0)
+                        else if (msg == "NEXT")
                         {
                             Debug.WriteLine(App.GetMode());
                             ImagePage.NextImage();
@@ -123,7 +130,7 @@ namespace VirtualWindowUWP
                             }
                             result = "OK";
                         }
-                        else if (msg.IndexOf("PREVIOUS") >= 0)
+                        else if (msg == "PREVIOUS")
                         {
                             switch (App.GetMode())
                             {
@@ -136,9 +143,13 @@ namespace VirtualWindowUWP
                             }
                             result = "OK";
                         }
-                        else if (msg.IndexOf("GET_MODE") >= 0)
+                        else if (msg == "GET_MODE")
                         {
                             result = App.GetMode();
+                        }
+                        else if (msg == "GET_IMAGE_THUMBS")
+                        {
+                            result = SendImageThumbs();
                         }
                         else
                         {
@@ -153,12 +164,25 @@ namespace VirtualWindowUWP
                 });
 
                 // send back result strings
-                await writer.WriteLineAsync(result);
-                await writer.FlushAsync();
+                //await writer.WriteLineAsync(result);
+                //await writer.FlushAsync();
+                streamWriter.WriteLine(result);
+                streamWriter.Flush();
 
                 Debug.WriteLine(result);
             });
 
+        }
+
+        private string SendImageThumbs()
+        {
+            List<StorageItemThumbnail> thumbs = ImagePage.GetThumbnailList();
+            
+            // First, send the number of thumbnail (images)
+            streamWriter.WriteLine(thumbs.Count);
+            streamWriter.Flush();
+
+            return "OK";
         }
 
         public void CloseSocket()

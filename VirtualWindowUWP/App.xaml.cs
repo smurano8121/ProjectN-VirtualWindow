@@ -103,9 +103,7 @@ namespace VirtualWindowUWP
             titleBar.ButtonPressedBackgroundColor = Windows.UI.Colors.DarkGray;
 
             // Enter to fullscreen mode
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-
-            
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();        
 
             // manage key listener
             Window.Current.CoreWindow.KeyDown += KeyDownEventHandler;
@@ -114,6 +112,12 @@ namespace VirtualWindowUWP
             socket = new Socket();
             socket.CreateSocketListener("50005");
             socket.setRootFrame(rootFrame);
+
+            // Load Images
+            ImagePage.GetImageList();
+
+            // Load Videos
+            VideoPage.GetVideoList();
 
             // create original HTTP server
             httpServer = new HttpServer(50006);

@@ -20,7 +20,7 @@ namespace VirtualWindowUWP
     public sealed partial class VideoPage : Page
     {
         // To get video library, we have to declare the function in app manifest.
-        private static StorageFolder videoLibrary;
+        private static StorageFolder videoLibrary = KnownFolders.VideosLibrary;
         // The list which contains stored videos in video library.
         private static IReadOnlyList<StorageFile> storedVideo;
         // File number index of stored video which is shown in Media Element.
@@ -32,11 +32,6 @@ namespace VirtualWindowUWP
         {
             this.InitializeComponent();
 
-            videoLibrary = KnownFolders.VideosLibrary;
-
-            // Read Image File from picture library.
-            GetVideoList();
-
             // Add KeyDown event handler into CoreWindow
             // Have to remove this handler when this page is unloaded.
             Window.Current.CoreWindow.KeyDown += KeyDownHandle;
@@ -46,16 +41,16 @@ namespace VirtualWindowUWP
             };
 
             videoObject = videoPlayer;
-        }
-        private async void GetVideoList()
-        {
-            // load image files upto 100.
-            videoLibrary = await videoLibrary.GetFolderAsync("VirtualWindow");
-            storedVideo = await videoLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
 
             // Show first image file stored in picture library.
             // Note: "first image" means the top file when files are sorted by Name.
             ReadVideo();
+        }
+        public static async void GetVideoList()
+        {
+            // load image files upto 100.
+            videoLibrary = await videoLibrary.GetFolderAsync("VirtualWindow");
+            storedVideo = await videoLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
         }
 
         private static async void ReadVideo()
