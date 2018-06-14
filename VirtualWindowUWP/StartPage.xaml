@@ -86,10 +86,11 @@
         </Grid>
 
         <Viewbox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock x:Name="information" Margin="40 10 40 10" Foreground="White">
+            <!--<TextBlock x:Name="information" Margin="40 10 40 10" Foreground="White">
                 ライブ映像ボタンは現在開発中のため使用することができません。<LineBreak/>
                 ライブ映像を表示する際はVLC media playerを使用してください。
-            </TextBlock>
+            </TextBlock>-->
+            <Image x:Name="test_image" Width="100" Height="100"/>
         </Viewbox>
 
     </Grid>

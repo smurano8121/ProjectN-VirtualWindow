@@ -9,6 +9,7 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace VirtualWindowUWP
 {
@@ -149,7 +150,7 @@ namespace VirtualWindowUWP
                         }
                         else if (msg == "GET_IMAGE_THUMBS")
                         {
-                            result = SendImageThumbs();
+                            result = SendImageThumbsAsync();
                         }
                         else
                         {
@@ -174,7 +175,8 @@ namespace VirtualWindowUWP
 
         }
 
-        private string SendImageThumbs()
+        // ref: https://social.msdn.microsoft.com/Forums/en-US/ec977327-291e-4409-8ef7-2cefeca7698c/problem-using-bitmapimagesetsourceasync?forum=winappswithcsharp
+        private String SendImageThumbsAsync()
         {
             List<StorageItemThumbnail> thumbs = ImagePage.GetThumbnailList();
             
@@ -182,8 +184,15 @@ namespace VirtualWindowUWP
             streamWriter.WriteLine(thumbs.Count);
             streamWriter.Flush();
 
+            // Second, as a test, send the first bitmap with Base64.
+            BitmapImage img = new BitmapImage();
+            img.SetSource(thumbs[0]);
+
+            StartPage.testImage.Source = img;
+
             return "OK";
         }
+
 
         public void CloseSocket()
         {

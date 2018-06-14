@@ -23,10 +23,12 @@ namespace VirtualWindowUWP
 {
     public sealed partial class StartPage : Page
     {
+        public static Image testImage;
 
         public StartPage()
         {
             this.InitializeComponent();
+            testImage = test_image;
         }
 
         public void NavigateButtonClick(object sender, RoutedEventArgs e)
