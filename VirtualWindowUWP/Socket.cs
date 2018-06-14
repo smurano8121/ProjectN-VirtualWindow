@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -78,13 +80,16 @@ namespace VirtualWindowUWP
                 streamWriter = new StreamWriter(outStream);
 
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
+                async () =>
                 {
                     try
                     {
                         Debug.WriteLine(msg);
-                        // if (msg.IndexOf("IMAGE") >= 0)
-                        if (msg == "IMAGE")
+                        if (msg == "ECHO")
+                        {
+                            result = await streamReader.ReadLineAsync();
+                        }
+                        else if (msg == "IMAGE")
                         {
                             // change mode to image mode and set the specified picture
                             rootFrame.ContentTransitions = new TransitionCollection();
@@ -114,6 +119,15 @@ namespace VirtualWindowUWP
                             rootFrame.ContentTransitions = new TransitionCollection();
                             rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
                             rootFrame.Navigate(typeof(BlankPage));
+                            result = "OK";
+                        }
+                        else if (msg == "HOME")
+                        {
+                            // change mode to blank mode
+                            rootFrame.ContentTransitions = new TransitionCollection();
+                            rootFrame.ContentTransitions.Add(new NavigationThemeTransition());
+                            rootFrame.Navigate(typeof(StartPage));
+                            rootFrame.BackStack.Clear();
                             result = "OK";
                         }
                         else if (msg == "NEXT")
@@ -150,7 +164,7 @@ namespace VirtualWindowUWP
                         }
                         else if (msg == "GET_IMAGE_THUMBS")
                         {
-                            result = SendImageThumbsAsync();
+                            result = await SendImageThumbsAsync();
                         }
                         else
                         {
@@ -176,7 +190,7 @@ namespace VirtualWindowUWP
         }
 
         // ref: https://social.msdn.microsoft.com/Forums/en-US/ec977327-291e-4409-8ef7-2cefeca7698c/problem-using-bitmapimagesetsourceasync?forum=winappswithcsharp
-        private String SendImageThumbsAsync()
+        private async Task<string> SendImageThumbsAsync()
         {
             List<StorageItemThumbnail> thumbs = ImagePage.GetThumbnailList();
             
@@ -184,15 +198,33 @@ namespace VirtualWindowUWP
             streamWriter.WriteLine(thumbs.Count);
             streamWriter.Flush();
 
-            // Second, as a test, send the first bitmap with Base64.
-            BitmapImage img = new BitmapImage();
-            img.SetSource(thumbs[0]);
+            // Second, send bitmap with Base64.
+            for (int i = 0; i < thumbs.Count; i++)
+            {
+                
+                BitmapImage img = new BitmapImage();
+                var dr = new DataReader(thumbs[i].GetInputStreamAt(0));
+                byte[] bytes = new byte[thumbs[i].Size];
+                await dr.LoadAsync((uint)thumbs[i].Size);
+                dr.ReadBytes(bytes);
 
-            StartPage.testImage.Source = img;
-
+                // Send base64
+                streamWriter.WriteLine(System.Convert.ToBase64String(bytes));
+                streamWriter.Flush();
+            }
+            
+            // Finally, send status code.
             return "OK";
         }
 
+        async Task<byte[]> Convert(IRandomAccessStream s)
+        {
+            var dr = new DataReader(s.GetInputStreamAt(0));
+            var bytes = new byte[s.Size];
+            await dr.LoadAsync((uint)s.Size);
+            dr.ReadBytes(bytes);
+            return bytes;
+        }
 
         public void CloseSocket()
         {
