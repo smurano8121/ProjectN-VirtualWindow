@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Storage;
 using Windows.System;
+using Windows.Storage.FileProperties;
 
 namespace VirtualWindowUWP
 {
@@ -27,6 +28,8 @@ namespace VirtualWindowUWP
         private static int videoIndex = 0;
         // Media element static object
         private static MediaElement videoObject;
+        // Thumbnail object
+        private static List<StorageItemThumbnail> thumbnailList;
 
         public VideoPage()
         {
@@ -40,6 +43,7 @@ namespace VirtualWindowUWP
                 Window.Current.CoreWindow.KeyDown -= KeyDownHandle;
             };
 
+            // set MediaElement into static variable
             videoObject = videoPlayer;
 
             // Show first image file stored in picture library.
@@ -51,6 +55,9 @@ namespace VirtualWindowUWP
             // load image files upto 100.
             videoLibrary = await videoLibrary.GetFolderAsync("VirtualWindow");
             storedVideo = await videoLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
+
+            // // get tumbnails
+            GetThumbs();
         }
 
         private static async void ReadVideo()
@@ -84,6 +91,31 @@ namespace VirtualWindowUWP
         public static void PreviousVideo()
         {
             videoIndex = videoIndex == 0 ? storedVideo.Count - 1 : videoIndex - 1;
+            ReadVideo();
+        }
+
+        public static async void GetThumbs()
+        {
+            thumbnailList = new List<StorageItemThumbnail>();
+            foreach (StorageFile file in storedVideo)
+            {
+                // Get thumbnail
+                const uint requestedSize = 250;
+                const ThumbnailMode thumbnailMode = ThumbnailMode.VideosView;
+                const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
+                var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                thumbnailList.Add(tmp);
+            }
+        }
+
+        public static List<StorageItemThumbnail> GetThumbnailList()
+        {
+            return thumbnailList;
+        }
+
+        public static void SetVideoIndex(int i)
+        {
+            videoIndex = i;
             ReadVideo();
         }
     }
