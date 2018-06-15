@@ -100,7 +100,7 @@ namespace VirtualWindowUWP
             foreach (StorageFile file in storedVideo)
             {
                 // Get thumbnail
-                const uint requestedSize = 250;
+                const uint requestedSize = 300;
                 const ThumbnailMode thumbnailMode = ThumbnailMode.VideosView;
                 const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
                 var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
