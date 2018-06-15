@@ -158,6 +158,12 @@ namespace VirtualWindowUWP
                             }
                             result = "OK";
                         }
+                        else if (msg == "SET_IMAGE_BY_ID")
+                        {
+                            string id = await streamReader.ReadLineAsync();
+                            ImagePage.SetImageIndex(int.Parse(id));
+                            result = "OK";
+                        }
                         else if (msg == "GET_MODE")
                         {
                             result = App.GetMode();

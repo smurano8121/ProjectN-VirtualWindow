@@ -120,7 +120,7 @@ namespace VirtualWindowUWP
             foreach (StorageFile file in storedPicture)
             {
                 // Get thumbnail
-                const uint requestedSize = 350;
+                const uint requestedSize = 250;
                 const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
                 const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
                 var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
@@ -131,6 +131,12 @@ namespace VirtualWindowUWP
         public static List<StorageItemThumbnail> GetThumbnailList()
         {
             return thumbnailList;
+        }
+
+        public static void SetImageIndex(int i)
+        {
+            imageIndex = i;
+            ReadImage();
         }
     }
 }
