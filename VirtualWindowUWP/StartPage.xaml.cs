@@ -23,7 +23,6 @@ namespace VirtualWindowUWP
 {
     public sealed partial class StartPage : Page
     {
-
         public StartPage()
         {
             this.InitializeComponent();

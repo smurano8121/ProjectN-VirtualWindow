@@ -103,8 +103,7 @@ namespace VirtualWindowUWP
             titleBar.ButtonPressedBackgroundColor = Windows.UI.Colors.DarkGray;
 
             // Enter to fullscreen mode
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();        
 
             // manage key listener
             Window.Current.CoreWindow.KeyDown += KeyDownEventHandler;
@@ -114,8 +113,14 @@ namespace VirtualWindowUWP
             socket.CreateSocketListener("50005");
             socket.setRootFrame(rootFrame);
 
+            // Load Images
+            ImagePage.GetImageList();
+
+            // Load Videos
+            VideoPage.GetVideoList();
+
             // create original HTTP server
-            httpServer = new HttpServer(50006);
+            httpServer = new HttpServer(8080);
         }
 
         /// <summary>
@@ -169,19 +174,11 @@ namespace VirtualWindowUWP
                     break;
                 // go to start page
                 case Windows.System.VirtualKey.Escape:
-                    if (frame == null)
-                        return;
-
-                    // Navigate back if possible, and if the event has not 
-                    // already been handled .
-                    if (frame.CanGoBack && e.Handled == false)
-                    {
-                        e.Handled = true;
-                        frame.GoBack();
-
-                        // Clear all BackStack properties
-                        frame.BackStack.Clear();
-                    }
+                    // change mode to blank mode
+                    frame.ContentTransitions = new TransitionCollection();
+                    frame.ContentTransitions.Add(new NavigationThemeTransition());
+                    frame.Navigate(typeof(StartPage));
+                    frame.BackStack.Clear();
                     break;
                 // for debug!
                 case Windows.System.VirtualKey.D:
