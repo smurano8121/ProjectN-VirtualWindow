@@ -69,6 +69,7 @@ namespace VirtualWindowUWP
 
         private static async void ReadImage()
         {
+            Debug.WriteLine(imageIndex);
             Windows.Storage.StorageFile pic = storedPicture[imageIndex];
 
             BitmapImage img = new BitmapImage();
@@ -104,6 +105,7 @@ namespace VirtualWindowUWP
 
         public static void NextImage()
         {
+            Debug.WriteLine("CHANGE!!!");
             imageIndex = imageIndex == storedPicture.Count - 1 ? 0 : imageIndex + 1;
             ReadImage();
         }

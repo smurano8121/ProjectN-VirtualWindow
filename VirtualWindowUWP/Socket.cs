@@ -133,7 +133,6 @@ namespace VirtualWindowUWP
                         else if (msg == "NEXT")
                         {
                             Debug.WriteLine(App.GetMode());
-                            ImagePage.NextImage();
                             switch (App.GetMode())
                             {
                                 case "ImagePage":
