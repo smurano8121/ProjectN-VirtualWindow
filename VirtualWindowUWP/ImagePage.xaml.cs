@@ -122,7 +122,7 @@ namespace VirtualWindowUWP
             foreach (StorageFile file in storedPicture)
             {
                 // Get thumbnail
-                const uint requestedSize = 300;
+                const uint requestedSize = 450;
                 const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
                 const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
                 var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
