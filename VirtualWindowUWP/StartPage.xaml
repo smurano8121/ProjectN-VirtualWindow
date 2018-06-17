@@ -10,42 +10,35 @@
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
-            <RowDefinition Height="45*"/>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="30*"/>
             <RowDefinition Height="130*"/>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="110*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="109*"/>
-            <ColumnDefinition Width="51*"/>
+            <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
 
         <Image x:Name="image" Source="Images/StartPage.png" Stretch="UniformToFill" Grid.ColumnSpan="2" Grid.RowSpan="7"/>
 
-        <Viewbox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock x:Name="textbox" Margin="40 10 40 10" Foreground="White">
-                操作用タブレット または マウス で操作してください。
+
+
+        <Rectangle Grid.Row="1" Grid.Column="0" Fill="#7FFFFFFF"/>
+        <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Foreground="#FF2E76B9" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="10 0 10 0">
+                同志社大学・奈良県立医科大学<LineBreak/>擬似窓システム
             </TextBlock>
         </Viewbox>
 
-        <Rectangle Grid.Row="1" Grid.Column="0">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <LinearGradientBrush.RelativeTransform>
-                        <CompositeTransform CenterY="0.5" CenterX="0.5" Rotation="90"/>
-                    </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="Transparent"/>
-                    <GradientStop Color="#A5FFFFFF" Offset="1"/>
-                    <GradientStop Color="#A5FFFFFF" Offset="0.442"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-            <TextBlock Text="Start Page" Margin="10 2 0 2" Foreground="#FF006E6E"></TextBlock>
+        <Viewbox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock x:Name="textbox" Margin="40 5 40 5" Foreground="White">
+                操作用タブレット または マウス で操作してください。
+            </TextBlock>
         </Viewbox>
-
 
         <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>

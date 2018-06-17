@@ -69,6 +69,7 @@ namespace VirtualWindowUWP
 
         private static async void ReadImage()
         {
+            Debug.WriteLine(imageIndex);
             Windows.Storage.StorageFile pic = storedPicture[imageIndex];
 
             BitmapImage img = new BitmapImage();
@@ -104,6 +105,7 @@ namespace VirtualWindowUWP
 
         public static void NextImage()
         {
+            Debug.WriteLine("CHANGE!!!");
             imageIndex = imageIndex == storedPicture.Count - 1 ? 0 : imageIndex + 1;
             ReadImage();
         }
@@ -120,7 +122,7 @@ namespace VirtualWindowUWP
             foreach (StorageFile file in storedPicture)
             {
                 // Get thumbnail
-                const uint requestedSize = 250;
+                const uint requestedSize = 450;
                 const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
                 const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
                 var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);

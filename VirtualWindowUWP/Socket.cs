@@ -133,7 +133,6 @@ namespace VirtualWindowUWP
                         else if (msg == "NEXT")
                         {
                             Debug.WriteLine(App.GetMode());
-                            ImagePage.NextImage();
                             switch (App.GetMode())
                             {
                                 case "ImagePage":
@@ -164,6 +163,12 @@ namespace VirtualWindowUWP
                             ImagePage.SetImageIndex(int.Parse(id));
                             result = "OK";
                         }
+                        else if (msg == "SET_VIDEO_BY_ID")
+                        {
+                            string id = await streamReader.ReadLineAsync();
+                            VideoPage.SetVideoIndex(int.Parse(id));
+                            result = "OK";
+                        }
                         else if (msg == "GET_MODE")
                         {
                             result = App.GetMode();
@@ -171,6 +176,10 @@ namespace VirtualWindowUWP
                         else if (msg == "GET_IMAGE_THUMBS")
                         {
                             result = await SendImageThumbsAsync();
+                        }
+                        else if (msg == "GET_VIDEO_THUMBS")
+                        {
+                            result = await SendVideoThumbsAsync();
                         }
                         else
                         {
@@ -219,6 +228,33 @@ namespace VirtualWindowUWP
                 streamWriter.Flush();
             }
             
+            // Finally, send status code.
+            return "OK";
+        }
+
+        private async Task<string> SendVideoThumbsAsync()
+        {
+            List<StorageItemThumbnail> thumbs = VideoPage.GetThumbnailList();
+
+            // First, send the number of thumbnail (images)
+            streamWriter.WriteLine(thumbs.Count);
+            streamWriter.Flush();
+
+            // Second, send bitmap with Base64.
+            for (int i = 0; i < thumbs.Count; i++)
+            {
+
+                BitmapImage img = new BitmapImage();
+                var dr = new DataReader(thumbs[i].GetInputStreamAt(0));
+                byte[] bytes = new byte[thumbs[i].Size];
+                await dr.LoadAsync((uint)thumbs[i].Size);
+                dr.ReadBytes(bytes);
+
+                // Send base64
+                streamWriter.WriteLine(System.Convert.ToBase64String(bytes));
+                streamWriter.Flush();
+            }
+
             // Finally, send status code.
             return "OK";
         }

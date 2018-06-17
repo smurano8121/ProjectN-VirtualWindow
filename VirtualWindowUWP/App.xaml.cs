@@ -105,10 +105,15 @@ namespace VirtualWindowUWP
             // Enter to fullscreen mode
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
 
-            // manage key listener
+            // Manage key listener
             Window.Current.CoreWindow.KeyDown += KeyDownEventHandler;
 
-            // create socket datagram
+            // Add mouse cursor pointer handler
+            AutoHideCursor.Start();
+            Window.Current.CoreWindow.PointerPressed += AutoHideCursor.AutoHider_PointerUsed;
+            Window.Current.CoreWindow.PointerMoved += AutoHideCursor.AutoHider_PointerUsed;
+
+            // Create socket datagram
             socket = new Socket();
             socket.CreateSocketListener("50005");
             socket.setRootFrame(rootFrame);
@@ -169,8 +174,9 @@ namespace VirtualWindowUWP
                         Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
                     }
                     break;
-                // go blank screen
+                // change cursor mode
                 case Windows.System.VirtualKey.B:
+                    AutoHideCursor.SwitchCursorMode();
                     break;
                 // go to start page
                 case Windows.System.VirtualKey.Escape:
