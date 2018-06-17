@@ -12,6 +12,7 @@
         <Image x:Name="image"  Stretch="UniformToFill"/>
     </Grid>
     
+    
     <!--<Grid>
         <vlc:MediaElement
             x:Name="vlc_player"

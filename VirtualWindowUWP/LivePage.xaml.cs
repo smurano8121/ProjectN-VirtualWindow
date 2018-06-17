@@ -16,8 +16,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using VLC;
-
+using System.Threading.Tasks;
+using Windows.Media.Playback;
+using Windows.Media.Core;
+using System.Diagnostics;
 
 namespace VirtualWindowUWP
 {
@@ -25,32 +27,51 @@ namespace VirtualWindowUWP
     {
         private MjpegDecoder mjpegDecoder;
 
+     
+
         public LivePage()
         {
             this.InitializeComponent();
             mjpegDecoder = new MjpegDecoder();
-            mjpegDecoder.FrameReady += mjpeg_FrameReady;
+            mjpegDecoder.FrameReady += Mjpeg_FrameReady;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            mjpegDecoder.ParseStream(new Uri("http://172.20.11.46/-wvhttp-01-/video.cgi"));
+            //mjpegDecoder.ParseStream(new Uri("http://172.20.11.46/-wvhttp-01-/video.cgi"));
+            //mjpegDecoder.ParseStream(new Uri("http://172.20.11.46/-wvhttp-01-/video.cgi"));
             // Project N camera url
-            // http://192.168.0.10/cgi-bin/mjpeg?framerate=15&resolution=640x480
+            Debug.WriteLine("error");
+            
+
+            try
+            {
+                mjpegDecoder.ParseStream(new Uri("http://192.168.0.10/cgi-bin/mjpeg"));
+            }
+            catch (System.AggregateException ae)
+            {
+                Debug.WriteLine("error");
+            }
         }
 
-        private async void mjpeg_FrameReady(object sender, FrameReadyEventArgs e)
+        private async void Mjpeg_FrameReady(object sender, FrameReadyEventArgs e)
         {
             using (InMemoryRandomAccessStream ms = new InMemoryRandomAccessStream())
             {
                 await ms.WriteAsync(e.FrameBuffer);
                 ms.Seek(0);
+                try
+                {
+                    var bmp = new BitmapImage();
+                    await bmp.SetSourceAsync(ms);
+                    //image is the Image control in XAML
+                    image.Source = bmp;
+                }
+                catch (System.AggregateException ae)
+                {
 
-                var bmp = new BitmapImage();
-                await bmp.SetSourceAsync(ms);
-
-                //image is the Image control in XAML
-                image.Source = bmp;
+                    Debug.WriteLine("error");
+                }
             }
         }
 

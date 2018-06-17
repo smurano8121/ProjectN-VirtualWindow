@@ -103,7 +103,7 @@ namespace VirtualWindowUWP
             titleBar.ButtonPressedBackgroundColor = Windows.UI.Colors.DarkGray;
 
             // Enter to fullscreen mode
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();        
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
 
             // manage key listener
             Window.Current.CoreWindow.KeyDown += KeyDownEventHandler;
