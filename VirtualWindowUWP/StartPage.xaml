@@ -85,6 +85,66 @@
             </TextBlock>
         </Viewbox>
 
+        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="information_view"
+              Background="#B2000000" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--IP-->
+            <Viewbox Grid.Row="1" Grid.Column="1">
+                <TextBlock x:Name="ip_title"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2">
+                IP Address
+                </TextBlock>
+            </Viewbox>
+            <Viewbox Grid.Row="1" Grid.Column="2">
+                <TextBlock x:Name="ip_text"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2"/>
+            </Viewbox>
+            
+            <!--Port-->
+            <Viewbox Grid.Row="2" Grid.Column="1">
+                <TextBlock x:Name="port_title"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2">
+                Port Number
+                </TextBlock>
+            </Viewbox>
+            <Viewbox Grid.Row="2" Grid.Column="2">
+                <TextBlock x:Name="port_text"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2"/>
+            </Viewbox>
+
+            <!--Version-->
+            <Viewbox Grid.Row="3" Grid.Column="1">
+                <TextBlock x:Name="version_title"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2">
+                Version
+                </TextBlock>
+            </Viewbox>
+            <Viewbox Grid.Row="3" Grid.Column="2">
+                <TextBlock x:Name="version_text"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2"/>
+            </Viewbox>
+
+        </Grid>
+
     </Grid>
 
 </Page>

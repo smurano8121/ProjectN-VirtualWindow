@@ -17,6 +17,7 @@ namespace VirtualWindowUWP
 {
     class Socket
     {
+        private static String portNum = "50005";
         private Windows.Networking.Sockets.StreamSocketListener socketListener;
         private Frame rootFrame;
         Stream inStream;
@@ -24,7 +25,7 @@ namespace VirtualWindowUWP
         StreamReader streamReader;
         StreamWriter streamWriter;
 
-        public async void CreateSocketListener(String portNum)
+        public async void CreateSocketListener()
         {
             try
             {
@@ -45,6 +46,11 @@ namespace VirtualWindowUWP
             }
         }
 
+        public static String GetPort()
+        {
+            return portNum;
+        }
+         
         public void setRootFrame(Frame frame)
         {
             rootFrame = frame;
