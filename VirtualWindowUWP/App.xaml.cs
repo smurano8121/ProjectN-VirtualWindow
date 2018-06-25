@@ -115,7 +115,7 @@ namespace VirtualWindowUWP
 
             // Create socket datagram
             socket = new Socket();
-            socket.CreateSocketListener("50005");
+            socket.CreateSocketListener();
             socket.setRootFrame(rootFrame);
 
             // Load Images

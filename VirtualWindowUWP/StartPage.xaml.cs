@@ -16,6 +16,9 @@ using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Media.Animation;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.System;
+using Windows.Networking.Connectivity;
+using Windows.Networking;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -26,6 +29,17 @@ namespace VirtualWindowUWP
         public StartPage()
         {
             this.InitializeComponent();
+
+            // Add KeyDown event handler into CoreWindow
+            // Have to remove this handler when this page is unloaded.
+            Window.Current.CoreWindow.KeyDown += KeyDownHandle;
+            this.Unloaded += (sender, e) =>
+            {
+                Window.Current.CoreWindow.KeyDown -= KeyDownHandle;
+            };
+
+            // Load information view properties
+            LoadInformation();
         }
 
         public void NavigateButtonClick(object sender, RoutedEventArgs e)
@@ -44,6 +58,52 @@ namespace VirtualWindowUWP
                     pageType = typeof(VideoPage); break;
             }
             App.NavigateTo(pageType);
+        }
+
+        private void LoadInformation()
+        {
+            TextBlock ip = ip_text;
+            TextBlock pt = port_text;
+            TextBlock vr = version_text;
+
+            // Load local ip address
+            var profile = NetworkInformation.GetInternetConnectionProfile();
+            if (profile != null && profile.NetworkAdapter != null)
+            {
+                foreach (var info in NetworkInformation.GetHostNames())
+                {
+                    if (info.Type == HostNameType.Ipv4 &&
+                        profile.NetworkAdapter.NetworkAdapterId == info.IPInformation.NetworkAdapter.NetworkAdapterId)
+                    {
+                        // IPv4 かつ 現在接続中のアダプターID
+                        ip.Text = info.CanonicalName;
+                    }
+                }
+            }
+
+            // Load socket port address
+            pt.Text = Socket.GetPort();
+
+            // Load app version
+        }
+
+        private void KeyDownHandle(object send, Windows.UI.Core.KeyEventArgs e)
+        {
+            switch (e.VirtualKey)
+            {
+                case VirtualKey.K:
+                    Grid gr = information_view;
+                    switch (gr.Visibility)
+                    {
+                        case Visibility.Collapsed:
+                            gr.Visibility = Visibility.Visible;
+                            break;
+                        default:
+                            gr.Visibility = Visibility.Collapsed;
+                            break;
+                    }
+                    break;
+            }
         }
     }
 }
