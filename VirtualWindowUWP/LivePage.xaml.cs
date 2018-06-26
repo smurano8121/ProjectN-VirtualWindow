@@ -38,20 +38,20 @@ namespace VirtualWindowUWP
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //mjpegDecoder.ParseStream(new Uri("http://172.20.11.46/-wvhttp-01-/video.cgi"));
+            mjpegDecoder.ParseStream(new Uri("http://172.20.11.46/-wvhttp-01-/video.cgi"));
             //mjpegDecoder.ParseStream(new Uri("http://172.20.11.46/-wvhttp-01-/video.cgi"));
             // Project N camera url
             Debug.WriteLine("error");
             
 
-            try
+            /*try
             {
                 mjpegDecoder.ParseStream(new Uri("http://192.168.0.10/cgi-bin/mjpeg"));
             }
             catch (System.AggregateException ae)
             {
                 Debug.WriteLine("error");
-            }
+            }*/
         }
 
         private async void Mjpeg_FrameReady(object sender, FrameReadyEventArgs e)
