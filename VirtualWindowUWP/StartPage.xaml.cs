@@ -85,6 +85,12 @@ namespace VirtualWindowUWP
             pt.Text = Socket.GetPort();
 
             // Load app version
+            var versionInfo = Windows.ApplicationModel.Package.Current.Id.Version;
+            string version = string.Format(
+                   "{0}.{1}.{2}",
+                   versionInfo.Major, versionInfo.Minor,
+                   versionInfo.Build);
+            vr.Text = version;
         }
 
         private void KeyDownHandle(object send, Windows.UI.Core.KeyEventArgs e)
