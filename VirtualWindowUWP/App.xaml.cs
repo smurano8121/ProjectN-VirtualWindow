@@ -125,7 +125,7 @@ namespace VirtualWindowUWP
             VideoPage.GetVideoList();
 
             // create original HTTP server
-            httpServer = new HttpServer(8080);
+            // httpServer = new HttpServer(8080);
         }
 
         /// <summary>

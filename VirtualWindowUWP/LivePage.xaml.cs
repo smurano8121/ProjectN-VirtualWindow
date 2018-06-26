@@ -34,9 +34,10 @@ namespace VirtualWindowUWP
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            mjpegDecoder.ParseStream(new Uri("http://172.20.11.46/-wvhttp-01-/video.cgi"));
+            mjpegDecoder.ParseStream(new Uri("http://192.168.10.13/cgi-bin/mjpeg?framerate=15&resolution=640x480"));
             // Project N camera url
             // http://192.168.0.10/cgi-bin/mjpeg?framerate=15&resolution=640x480
+            // http://192.168.10.13/cgi-bin/mjpeg
         }
 
         private async void mjpeg_FrameReady(object sender, FrameReadyEventArgs e)

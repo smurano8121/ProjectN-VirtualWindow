@@ -54,8 +54,7 @@
                 <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="liveButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick"
-                    IsEnabled="False">
+            <Button x:Name="liveButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick">
                 <Viewbox Margin="25">
                     <TextBlock Foreground="LightGray">ライブ映像</TextBlock>
                 </Viewbox>
@@ -79,10 +78,10 @@
         </Grid>
 
         <Viewbox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock x:Name="information" Margin="40 10 40 10" Foreground="White">
+            <!--<TextBlock x:Name="information" Margin="40 10 40 10" Foreground="White">
                 ライブ映像ボタンは現在開発中のため使用することができません。<LineBreak/>
                 ライブ映像を表示する際はVLC media playerを使用してください。
-            </TextBlock>
+            </TextBlock>-->
         </Viewbox>
 
         <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="information_view"
