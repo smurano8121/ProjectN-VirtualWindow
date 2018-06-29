@@ -106,7 +106,6 @@
     <Compile Include="BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HttpServer.cs" />
     <Compile Include="ImagePage.xaml.cs">
       <DependentUpon>ImagePage.xaml</DependentUpon>
     </Compile>

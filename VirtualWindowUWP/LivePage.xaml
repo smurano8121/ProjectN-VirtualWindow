@@ -15,7 +15,8 @@
     <Grid>
         <vlc:MediaElement
             x:Name="vlc_player"
-            AreTransportControlsEnabled="True">
+            AreTransportControlsEnabled="False"
+            >
             <!--<vlc:MediaElement.TransportControls>
                 <vlc:MediaTransportControls ControlPanelOpacity="0.8" />
             </vlc:MediaElement.TransportControls>-->
