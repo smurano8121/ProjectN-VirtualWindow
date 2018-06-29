@@ -11,12 +11,12 @@
     <!--<Grid x:Name="imageGrid" Background="Black">
         <Image x:Name="image"  Stretch="UniformToFill"/>
     </Grid>-->
-    
+
     <Grid>
         <vlc:MediaElement
             x:Name="vlc_player"
             AreTransportControlsEnabled="False"
-            >
+            Stretch="UniformToFill">
             <!--<vlc:MediaElement.TransportControls>
                 <vlc:MediaTransportControls ControlPanelOpacity="0.8" />
             </vlc:MediaElement.TransportControls>-->

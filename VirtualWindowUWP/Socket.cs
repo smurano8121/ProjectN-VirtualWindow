@@ -164,7 +164,6 @@ namespace VirtualWindowUWP
                                     result = "OK";
                                     break;
                                 }
-
                             case "SET_VIDEO_BY_ID":
                                 {
                                     string id = await streamReader.ReadLineAsync();
@@ -172,7 +171,18 @@ namespace VirtualWindowUWP
                                     result = "OK";
                                     break;
                                 }
-
+                            case "TOGGLE_FULLSCREEN":
+                                {
+                                    if (Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().IsFullScreenMode)
+                                    {
+                                        Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().ExitFullScreenMode();
+                                    }
+                                    else
+                                    {
+                                        Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                                    }
+                                    break;
+                                }
                             case "GET_MODE":
                                 result = App.GetMode();
                                 break;

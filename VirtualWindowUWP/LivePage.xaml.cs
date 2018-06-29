@@ -60,13 +60,6 @@ namespace VirtualWindowUWP
             this.InitializeComponent();
             vlc_player.HardwareAcceleration = true;
 
-            // digest??
-            // vlc_player.Options.Add("rtsp-host", "192.168.0.10");
-            // vlc_player.Options.Add("network-caching", "1000");
-            // vlc_player.Options.Add("rtsp-user", "projectn");
-            // vlc_player.Options.Add("rtsp-pwd", "projectn2018");
-            // vlc_player.Source = "rtsp://projectn:projectn2018@192.168.0.10/MediaInput/h264";
-            /* 暫定的にMJpegを指定 */
             vlc_player.Source = "rtsp://192.168.0.10/ONVIF/MediaInput?profile=3_def_profile1";
             // vlc_player.Source = "rtsp://192.168.0.10/MediaInput/h264";
 
@@ -74,7 +67,8 @@ namespace VirtualWindowUWP
             // vlc_player.Source = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov";
             // vlc_player.Options.Add("rtsp-host", "184.72.239.149");
 
-            vlc_player.Stretch = Stretch.UniformToFill;
+            
+            // vlc_player.Stretch = Stretch.UniformToFill;
             vlc_player.Play();
         }
 
