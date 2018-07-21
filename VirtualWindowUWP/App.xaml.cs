@@ -39,7 +39,6 @@ namespace VirtualWindowUWP
         public static Frame rootFrame;
 
         Socket socket;
-        HttpServer httpServer;
 
         public App()
         {

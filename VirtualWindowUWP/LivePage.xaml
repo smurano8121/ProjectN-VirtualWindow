@@ -8,19 +8,19 @@
     xmlns:vlc="using:VLC"
     mc:Ignorable="d">
 
-    <Grid x:Name="imageGrid" Background="Black">
+    <!--<Grid x:Name="imageGrid" Background="Black">
         <Image x:Name="image"  Stretch="UniformToFill"/>
-    </Grid>
-    
-    
-    <!--<Grid>
+    </Grid>-->
+
+    <Grid>
         <vlc:MediaElement
             x:Name="vlc_player"
-            AreTransportControlsEnabled="True">
-            <vlc:MediaElement.TransportControls>
+            AreTransportControlsEnabled="False"
+            Stretch="UniformToFill">
+            <!--<vlc:MediaElement.TransportControls>
                 <vlc:MediaTransportControls ControlPanelOpacity="0.8" />
-            </vlc:MediaElement.TransportControls>
+            </vlc:MediaElement.TransportControls>-->
         </vlc:MediaElement>
-    </Grid>-->
+    </Grid>
 
 </Page>

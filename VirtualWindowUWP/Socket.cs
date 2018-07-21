@@ -31,7 +31,7 @@ namespace VirtualWindowUWP
             {
                 // Create a StreamSocketListener to start listening for TCP connections.
                 socketListener = new Windows.Networking.Sockets.StreamSocketListener();
-
+                
                 // Hook up an event handler to call when connections are received.
                 socketListener.ConnectionReceived += SocketListener_ConnectionReceived;
 
@@ -59,9 +59,14 @@ namespace VirtualWindowUWP
         private async void SocketListener_ConnectionReceived(Windows.Networking.Sockets.StreamSocketListener sender,
         Windows.Networking.Sockets.StreamSocketListenerConnectionReceivedEventArgs args)
         {
+            
+
             // Read line from the remote client.
             inStream = args.Socket.InputStream.AsStreamForRead();
             streamReader = new StreamReader(inStream);
+            // Add timeout function (ms)
+            // streamReader.BaseStream.ReadTimeout = 3000;
+
             string request = await streamReader.ReadLineAsync();
 
             try
@@ -164,7 +169,6 @@ namespace VirtualWindowUWP
                                     result = "OK";
                                     break;
                                 }
-
                             case "SET_VIDEO_BY_ID":
                                 {
                                     string id = await streamReader.ReadLineAsync();
@@ -172,7 +176,18 @@ namespace VirtualWindowUWP
                                     result = "OK";
                                     break;
                                 }
-
+                            case "TOGGLE_FULLSCREEN":
+                                {
+                                    if (Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().IsFullScreenMode)
+                                    {
+                                        Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().ExitFullScreenMode();
+                                    }
+                                    else
+                                    {
+                                        Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                                    }
+                                    break;
+                                }
                             case "GET_MODE":
                                 result = App.GetMode();
                                 break;

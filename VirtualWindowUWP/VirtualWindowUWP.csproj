@@ -106,7 +106,6 @@
     <Compile Include="BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HttpServer.cs" />
     <Compile Include="ImagePage.xaml.cs">
       <DependentUpon>ImagePage.xaml</DependentUpon>
     </Compile>
@@ -162,6 +161,7 @@
     <Content Include="Assets\WideTile.scale-200.png" />
     <Content Include="Assets\WideTile.scale-400.png" />
     <Content Include="Images\default.jpg" />
+    <Content Include="Images\newStartPage.png" />
     <Content Include="Images\StartPage.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -195,10 +195,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.6</Version>
+      <Version>6.1.5</Version>
     </PackageReference>
     <PackageReference Include="VLC.MediaElement">
-      <Version>0.9.21</Version>
+      <Version>3.0.1.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
