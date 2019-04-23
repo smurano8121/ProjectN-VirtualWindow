@@ -10,42 +10,35 @@
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
-            <RowDefinition Height="45*"/>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="30*"/>
             <RowDefinition Height="130*"/>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="110*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="109*"/>
-            <ColumnDefinition Width="51*"/>
+            <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
 
-        <Image x:Name="image" Source="Images/StartPage.png" Stretch="UniformToFill" Grid.ColumnSpan="2" Grid.RowSpan="7"/>
+        <Image x:Name="image" Source="Images/newStartPage.png" Stretch="UniformToFill" Grid.ColumnSpan="2" Grid.RowSpan="7"/>
 
-        <Viewbox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock x:Name="textbox" Margin="40 10 40 10" Foreground="White">
-                操作用タブレット または マウス で操作してください。
+
+
+        <Rectangle Grid.Row="1" Grid.Column="0" Fill="#7FFFFFFF"/>
+        <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Foreground="#FF2E76B9" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="10 0 10 0">
+                同志社大学<LineBreak/>擬似窓 システム
             </TextBlock>
         </Viewbox>
 
-        <Rectangle Grid.Row="1" Grid.Column="0">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <LinearGradientBrush.RelativeTransform>
-                        <CompositeTransform CenterY="0.5" CenterX="0.5" Rotation="90"/>
-                    </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="Transparent"/>
-                    <GradientStop Color="#A5FFFFFF" Offset="1"/>
-                    <GradientStop Color="#A5FFFFFF" Offset="0.442"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-            <TextBlock Text="Start Page" Margin="10 2 0 2" Foreground="#FF006E6E"></TextBlock>
+        <Viewbox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock x:Name="textbox" Margin="40 5 40 5" Foreground="White">
+                操作用タブレット または マウス で操作してください。
+            </TextBlock>
         </Viewbox>
-
 
         <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
@@ -61,10 +54,9 @@
                 <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="liveButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick"
-                    IsEnabled="False">
+            <Button x:Name="liveButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick">
                 <Viewbox Margin="25">
-                    <TextBlock Foreground="LightGray">ライブ映像</TextBlock>
+                    <TextBlock Foreground="White">ライブ映像</TextBlock>
                 </Viewbox>
             </Button>
             <Button x:Name="blankButton" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#7F000000" Click="NavigateButtonClick">
@@ -86,11 +78,71 @@
         </Grid>
 
         <Viewbox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock x:Name="information" Margin="40 10 40 10" Foreground="White">
+            <!--<TextBlock x:Name="information" Margin="40 10 40 10" Foreground="White">
                 ライブ映像ボタンは現在開発中のため使用することができません。<LineBreak/>
                 ライブ映像を表示する際はVLC media playerを使用してください。
-            </TextBlock>
+            </TextBlock>-->
         </Viewbox>
+
+        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="information_view"
+              Background="#B2000000" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--IP-->
+            <Viewbox Grid.Row="1" Grid.Column="1">
+                <TextBlock x:Name="ip_title"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2">
+                IP Address
+                </TextBlock>
+            </Viewbox>
+            <Viewbox Grid.Row="1" Grid.Column="2">
+                <TextBlock x:Name="ip_text"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2"/>
+            </Viewbox>
+            
+            <!--Port-->
+            <Viewbox Grid.Row="2" Grid.Column="1">
+                <TextBlock x:Name="port_title"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2">
+                Port Number
+                </TextBlock>
+            </Viewbox>
+            <Viewbox Grid.Row="2" Grid.Column="2">
+                <TextBlock x:Name="port_text"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2"/>
+            </Viewbox>
+
+            <!--Version-->
+            <Viewbox Grid.Row="3" Grid.Column="1">
+                <TextBlock x:Name="version_title"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2">
+                Version
+                </TextBlock>
+            </Viewbox>
+            <Viewbox Grid.Row="3" Grid.Column="2">
+                <TextBlock x:Name="version_text"  Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       Margin="0 2 0 2"/>
+            </Viewbox>
+
+        </Grid>
 
     </Grid>
 

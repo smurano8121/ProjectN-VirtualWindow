@@ -14,27 +14,26 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Storage;
 using Windows.System;
+using Windows.Storage.FileProperties;
 
 namespace VirtualWindowUWP
 {
     public sealed partial class VideoPage : Page
     {
         // To get video library, we have to declare the function in app manifest.
-        private static StorageFolder videoLibrary;
+        private static StorageFolder videoLibrary = KnownFolders.VideosLibrary;
         // The list which contains stored videos in video library.
-        private IReadOnlyList<StorageFile> storedVideo;
+        private static IReadOnlyList<StorageFile> storedVideo;
         // File number index of stored video which is shown in Media Element.
-        private int videoIndex = 0;
-
+        private static int videoIndex = 0;
+        // Media element static object
+        private static MediaElement videoObject;
+        // Thumbnail object
+        private static List<StorageItemThumbnail> thumbnailList;
 
         public VideoPage()
         {
             this.InitializeComponent();
-
-            videoLibrary = KnownFolders.VideosLibrary;
-
-            // Read Image File from picture library.
-            GetVideoList();
 
             // Add KeyDown event handler into CoreWindow
             // Have to remove this handler when this page is unloaded.
@@ -43,24 +42,30 @@ namespace VirtualWindowUWP
             {
                 Window.Current.CoreWindow.KeyDown -= KeyDownHandle;
             };
-        }
-        private async void GetVideoList()
-        {
-            // load image files upto 100.
-            videoLibrary = await videoLibrary.GetFolderAsync("VirtualWindow");
-            storedVideo = await videoLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
+
+            // set MediaElement into static variable
+            videoObject = videoPlayer;
 
             // Show first image file stored in picture library.
             // Note: "first image" means the top file when files are sorted by Name.
             ReadVideo();
         }
+        public static async void GetVideoList()
+        {
+            // load image files upto 100.
+            videoLibrary = await videoLibrary.GetFolderAsync("VirtualWindow");
+            storedVideo = await videoLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
 
-        private async void ReadVideo()
+            // // get tumbnails
+            GetThumbs();
+        }
+
+        private static async void ReadVideo()
         {
             StorageFile video = storedVideo[videoIndex];
             var stream = await video.OpenAsync(Windows.Storage.FileAccessMode.Read);
 
-            videoPlayer.SetSource(stream, video.ContentType);
+            videoObject.SetSource(stream, video.ContentType);
         }
 
         // CoreWindow.KeyDown event handler only used in this page.
@@ -69,12 +74,48 @@ namespace VirtualWindowUWP
             switch (e.VirtualKey)
             {
                 case VirtualKey.Right:
-                    videoIndex = videoIndex == storedVideo.Count - 1 ? 0 : videoIndex + 1;
+                    NextVideo();
                     break;
                 case VirtualKey.Left:
-                    videoIndex = videoIndex == 0 ? storedVideo.Count - 1 : videoIndex - 1;
+                    PreviousVideo();
                     break;
             }
+        }
+
+        public static void NextVideo()
+        {
+            videoIndex = videoIndex == storedVideo.Count - 1 ? 0 : videoIndex + 1;
+            ReadVideo();
+        }
+
+        public static void PreviousVideo()
+        {
+            videoIndex = videoIndex == 0 ? storedVideo.Count - 1 : videoIndex - 1;
+            ReadVideo();
+        }
+
+        public static async void GetThumbs()
+        {
+            thumbnailList = new List<StorageItemThumbnail>();
+            foreach (StorageFile file in storedVideo)
+            {
+                // Get thumbnail
+                const uint requestedSize = 350;
+                const ThumbnailMode thumbnailMode = ThumbnailMode.VideosView;
+                const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
+                var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                thumbnailList.Add(tmp);
+            }
+        }
+
+        public static List<StorageItemThumbnail> GetThumbnailList()
+        {
+            return thumbnailList;
+        }
+
+        public static void SetVideoIndex(int i)
+        {
+            videoIndex = i;
             ReadVideo();
         }
     }

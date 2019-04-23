@@ -19,32 +19,63 @@ using Windows.Storage.Streams;
 using System.Diagnostics;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.Storage.FileProperties;
 
 namespace VirtualWindowUWP
 {
     public sealed partial class ImagePage : Page
     {
         // To get picture library, we have to declare the function in app manifest.
-        private static StorageFolder pictureLiblary;
+        private static StorageFolder pictureLibrary = KnownFolders.PicturesLibrary;
+        // The list which contains stored pictures in picture library.
+        private static IReadOnlyList<StorageFile> storedPicture;
+        // File number index of stored picture which is shown in Image view.
+        private static int imageIndex = 0;
+        // ImageView static object
+        private static Image imageViewObject;
+        // Thumbnail object
+        private static List<StorageItemThumbnail> thumbnailList;
 
         public ImagePage()
         {
             this.InitializeComponent();
-            pictureLiblary = KnownFolders.PicturesLibrary;
-            CoreWindow.GetForCurrentThread().KeyDown += ShortKey_Down;
-            //Window.Current.CoreWindow.KeyDown += ShortKey_Down;
+
+            // Add KeyDown event handler into CoreWindow
+            // Have to remove this handler when this page is unloaded.
+            Window.Current.CoreWindow.KeyDown += KeyDownHandle;
+            this.Unloaded += (sender, e) =>
+            {
+                Window.Current.CoreWindow.KeyDown -= KeyDownHandle;
+            };
+
+            // set imageView into static variable
+            imageViewObject = imageView;
+
+            // Show first image file stored in picture library.
+            // Note: "first image" means the top file when files are sorted by Name.
+            ReadImage();
         }
 
-        private async void ReadImage()
+        public static async void GetImageList()
         {
-            Debug.WriteLine("OK.");
-            // for debug
-            Windows.Storage.StorageFile pic = await pictureLiblary.GetFileAsync("virtualWindow\\pic_01.jpg");
+            // load image files upto 100.
+            pictureLibrary = await pictureLibrary.GetFolderAsync("VirtualWindow");
+            storedPicture = await pictureLibrary.GetFilesAsync(Windows.Storage.Search.CommonFileQuery.OrderByName, 0, 100);
+
+            // // get tumbnails
+            GetThumbs();
+
+        }
+
+        private static async void ReadImage()
+        {
+            Debug.WriteLine(imageIndex);
+            Windows.Storage.StorageFile pic = storedPicture[imageIndex];
 
             BitmapImage img = new BitmapImage();
             img = await LoadImage(pic);
 
-            imageView.Source = img;
+            imageViewObject.Source = img;
         }
 
         private static async Task<BitmapImage> LoadImage(StorageFile file)
@@ -58,31 +89,55 @@ namespace VirtualWindowUWP
 
         }
 
-        /*private void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-
-            ReadImage();
-            switch (e.Key)
-            {
-                case Windows.System.VirtualKey.A:
-                    ReadImage();
-                    break;
-            }
-        }*/
-
-        private void ShortKey_Down(object send, Windows.UI.Core.KeyEventArgs e)
+        private void KeyDownHandle(object send, Windows.UI.Core.KeyEventArgs e)
         {
             switch (e.VirtualKey)
             {
-                case VirtualKey.Escape:
-                    //ESCキーを押した時呼ばれる
+                case VirtualKey.Right:
+                    NextImage();
                     break;
-                case VirtualKey.Z:
-                    //zキーを押した時呼ばれる
-                    Debug.WriteLine("Change");
-                    ReadImage();
+                case VirtualKey.Left:
+                    PreviousImage();
                     break;
             }
+        }
+
+        public static void NextImage()
+        {
+            Debug.WriteLine("CHANGE!!!");
+            imageIndex = imageIndex == storedPicture.Count - 1 ? 0 : imageIndex + 1;
+            ReadImage();
+        }
+
+        public static void PreviousImage()
+        {
+            imageIndex = imageIndex == 0 ? storedPicture.Count - 1 : imageIndex - 1;
+            ReadImage();
+        }
+
+        public static async void GetThumbs()
+        {
+            thumbnailList = new List<StorageItemThumbnail>();
+            foreach (StorageFile file in storedPicture)
+            {
+                // Get thumbnail
+                const uint requestedSize = 350;
+                const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
+                const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
+                var tmp = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                thumbnailList.Add(tmp);
+            }
+        }
+
+        public static List<StorageItemThumbnail> GetThumbnailList()
+        {
+            return thumbnailList;
+        }
+
+        public static void SetImageIndex(int i)
+        {
+            imageIndex = i;
+            ReadImage();
         }
     }
 }
