@@ -22,7 +22,7 @@ using Windows.UI.Core;
 using Windows.Storage.FileProperties;
 
 namespace VirtualWindowUWP
-{   
+{
     public sealed partial class ImagePage : Page
     {
         // To get picture library, we have to declare the function in app manifest.
@@ -35,7 +35,6 @@ namespace VirtualWindowUWP
         private static Image imageViewObject;
         // Thumbnail object
         private static List<StorageItemThumbnail> thumbnailList;
-
 
         public ImagePage()
         {
@@ -65,6 +64,7 @@ namespace VirtualWindowUWP
 
             // // get tumbnails
             GetThumbs();
+
         }
 
         private static async void ReadImage()
@@ -89,7 +89,6 @@ namespace VirtualWindowUWP
 
         }
 
-        // CoreWindow.KeyDown event handler only used in this page.
         private void KeyDownHandle(object send, Windows.UI.Core.KeyEventArgs e)
         {
             switch (e.VirtualKey)
